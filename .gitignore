@@ -1,0 +1,6 @@
+/.idea
+/config/settings.yml
+/lab
+/public/archives/*
+!/public/archives/.gitkeep
+/vendor

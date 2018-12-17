@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+umask(0);
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use CompoLab\Application\Cli\BuildCommand;
+use CompoLab\Infrastructure\Services;
+
+$services = Services::getInstance(false);
+
+$app = new Application('CompoLab', 'v1.0');
+$app->add(new BuildCommand(
+    $services->gitlab,
+    $services->manager
+));
+$app->run();

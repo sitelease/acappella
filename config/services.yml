@@ -1,0 +1,25 @@
+imports:
+    - { resource: settings.yml }
+
+services:
+  gitlab:
+    public:       true
+    class:        Gitlab\Client
+    factory:      Gitlab\Client::create
+    arguments:    ['%gitlab.url%']
+    calls:
+      - [authenticate, ['%gitlab.token%', '%gitlab.method%']]
+
+  repository:
+    class:        CompoLab\Domain\Repository
+    factory:      CompoLab\Domain\Repository::buildEmpty
+    arguments:    ['%composer.url%', '%composer.dir%']
+
+  cache:
+    class:        CompoLab\Infrastructure\JsonRepositoryCache
+    arguments:    ['@repository']
+
+  manager:
+    public:       true
+    class:        CompoLab\Application\GitlabRepositoryManager
+    arguments:    ['@cache', '@gitlab']

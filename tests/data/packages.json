@@ -1,0 +1,141 @@
+{
+  "packages": {
+    "vendor/project": {
+      "2.0.x-dev": {
+        "name": "vendor/project",
+        "version": "2.0.x-dev",
+        "minimum-stability": "dev",
+        "require": {
+          "php": "^7.1",
+          "m4tthumphrey/php-gitlab-api": "^9.0",
+          "php-http/guzzle6-adapter": "^1.0",
+          "symfony/config": "^4.0",
+          "symfony/console": "^4.0",
+          "symfony/dependency-injection": "^4.0",
+          "symfony/event-dispatcher": "^4.0",
+          "symfony/yaml": "^4.0"
+        },
+        "require-dev": {
+          "phpunit/phpunit": "^6"
+        },
+        "autoload": {
+          "psr-4": {
+            "CompoLab\\": "src",
+            "CompoLab\\Tests\\": "tests/src"
+          }
+        },
+        "source": {
+          "type": "git",
+          "url": "git@gitlab.my-website.com:vendor/project.git",
+          "reference": "6a6e0ea9479c821d4b5728c0d3c9840e71085e82"
+        },
+        "dist": {
+          "type": "tar",
+          "url": "https://composer.my-website.com/packages/vendor/project/2.0.x-dev/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz",
+          "reference": "6a6e0ea9479c821d4b5728c0d3c9840e71085e82",
+          "shasum": "4da053f3f10c255f9f15357cd5be012ebe4d6467"
+        }
+      },
+      "dev-master": {
+        "name": "vendor/project",
+        "version": "dev-master",
+        "minimum-stability": "dev",
+        "require": {
+          "php": "^7.1",
+          "m4tthumphrey/php-gitlab-api": "^9.0",
+          "php-http/guzzle6-adapter": "^1.0",
+          "symfony/config": "^4.0",
+          "symfony/console": "^4.0",
+          "symfony/dependency-injection": "^4.0",
+          "symfony/event-dispatcher": "^4.0",
+          "symfony/yaml": "^4.0"
+        },
+        "require-dev": {
+          "phpunit/phpunit": "^6"
+        },
+        "autoload": {
+          "psr-4": {
+            "CompoLab\\": "src",
+            "CompoLab\\Tests\\": "tests/src"
+          }
+        },
+        "source": {
+          "type": "git",
+          "url": "git@gitlab.my-website.com:vendor/project.git",
+          "reference": "6a6e0ea9479c821d4b5728c0d3c9840e71085e82"
+        },
+        "dist": {
+          "type": "tar",
+          "url": "https://composer.my-website.com/packages/vendor/project/dev-master/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz",
+          "reference": "6a6e0ea9479c821d4b5728c0d3c9840e71085e82",
+          "shasum": "4da053f3f10c255f9f15357cd5be012ebe4d6467"
+        }
+      },
+      "v1.2.3": {
+        "name": "vendor/project",
+        "version": "v1.2.3",
+        "minimum-stability": "dev",
+        "require": {
+          "php": "^7.1",
+          "m4tthumphrey/php-gitlab-api": "^9.0",
+          "php-http/guzzle6-adapter": "^1.0",
+          "symfony/config": "^4.0",
+          "symfony/console": "^4.0",
+          "symfony/dependency-injection": "^4.0",
+          "symfony/event-dispatcher": "^4.0",
+          "symfony/yaml": "^4.0"
+        },
+        "require-dev": {
+          "phpunit/phpunit": "^6"
+        },
+        "autoload": {
+          "psr-4": {
+            "CompoLab\\": "src",
+            "CompoLab\\Tests\\": "tests/src"
+          }
+        },
+        "source": {
+          "type": "git",
+          "url": "git@gitlab.my-website.com:vendor/project.git",
+          "reference": "6a6e0ea9479c821d4b5728c0d3c9840e71085e82"
+        },
+        "dist": {
+          "type": "tar",
+          "url": "https://composer.my-website.com/packages/vendor/project/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz",
+          "reference": "6a6e0ea9479c821d4b5728c0d3c9840e71085e82",
+          "shasum": "4da053f3f10c255f9f15357cd5be012ebe4d6467"
+        }
+      }
+    },
+    "vendor/project2": {
+      "dev-master": {
+        "name": "vendor/project2",
+        "version": "dev-master",
+        "minimum-stability": "dev",
+        "require": {
+          "php": "^7.1",
+          "php-http/guzzle6-adapter": "^1.0",
+          "symfony/config": "^4.0",
+          "symfony/dependency-injection": "^4.0",
+          "symfony/yaml": "^4.0"
+        },
+        "autoload": {
+          "psr-4": {
+            "Foobar\\": "src"
+          }
+        },
+        "source": {
+          "type": "git",
+          "url": "git@gitlab.my-website.com:vendor/project2.git",
+          "reference": "6a6e0ea9479c821d4b5728c0d3c9840e71085e82"
+        },
+        "dist": {
+          "type": "tar",
+          "url": "https://composer.my-website.com/packages/vendor/project2/dev-master/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz",
+          "reference": "6a6e0ea9479c821d4b5728c0d3c9840e71085e82",
+          "shasum": "4da053f3f10c255f9f15357cd5be012ebe4d6467"
+        }
+      }
+    }
+  }
+}
