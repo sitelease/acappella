@@ -112,18 +112,10 @@ final class Repository implements \Countable, \JsonSerializable
         return $packages;
     }
 
-    public static function buildEmpty(string $baseUrl, string $cachePath): self
-    {
-        return new self(
-            new Url($baseUrl),
-            new Dir($cachePath)
-        );
-    }
-
     public static function buildFromPath(Url $baseUrl, Dir $cachePath, string $path): self
     {
         if (!$json = file_get_contents($path)) {
-            throw new \RuntimeException(sprintf('File "%s" is not readable'));
+            throw new \RuntimeException(sprintf('File "%s" is not readable', $path));
         }
 
         return self::buildFromJson($baseUrl, $cachePath, $json);
@@ -135,13 +127,13 @@ final class Repository implements \Countable, \JsonSerializable
             throw new \RuntimeException('Impossible to decode JSON string as array');
         }
 
-        if (!isset($data['packages']) or !$vendors = $data['packages']) {
-            throw new \RuntimeException('Malformed JSON or empty repository');
+        if (!isset($data['packages'])) {
+            throw new \RuntimeException('Malformed JSON');
         }
 
         $repository = new self($baseUrl, $cachePath);
 
-        foreach ($vendors as $packages) {
+        foreach ($data['packages'] as $packages) {
             foreach ($packages as $package) {
                 $repository->addPackage(Package::buildFromArray((string) $cachePath, $package));
             }
