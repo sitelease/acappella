@@ -76,6 +76,7 @@ final class BuildCommand extends Command
             $progress->advance();
 
         }
+        $progress->setMessage('Parse projects... OK');
         $progress->finish();
 
         $output->write('Persist JSON in cache...');
