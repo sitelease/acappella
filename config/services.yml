@@ -10,10 +10,18 @@ services:
     calls:
       - [authenticate, ['%gitlab.token%', '%gitlab.method%']]
 
+  baseUrl:
+    class:        CompoLab\Domain\ValueObject\Url
+    arguments:    ['%composer.url%']
+
+  cacheDir:
+    class:        CompoLab\Domain\ValueObject\Dir
+    arguments:    ['%composer.dir%']
+
   repository:
     class:        CompoLab\Domain\Repository
-    factory:      CompoLab\Domain\Repository::buildEmpty
-    arguments:    ['%composer.url%', '%composer.dir%']
+    factory:      CompoLab\Domain\Repository::buildFromPath
+    arguments:    ['@baseUrl', '@cacheDir', '%composer.dir%/packages.json']
 
   cache:
     class:        CompoLab\Infrastructure\JsonRepositoryCache
