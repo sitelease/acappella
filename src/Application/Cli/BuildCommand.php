@@ -17,12 +17,12 @@ final class BuildCommand extends Command
     private $gitlab;
 
     /** @var GitlabRepositoryManager */
-    private $manager;
+    private $repositoryManager;
 
-    public function __construct(Gitlab $gitlab, GitlabRepositoryManager $manager)
+    public function __construct(Gitlab $gitlab, GitlabRepositoryManager $repositoryManager)
     {
         $this->gitlab = $gitlab;
-        $this->manager = $manager;
+        $this->repositoryManager = $repositoryManager;
 
         parent::__construct();
     }
@@ -42,8 +42,7 @@ final class BuildCommand extends Command
         $pager = new ResultPager($this->gitlab);
 
         $output->write('List all projects...');
-//        $projects = $pager->fetchall($this->gitlab->projects, 'all');
-        $projects = $pager->fetch($this->gitlab->projects, 'all');
+        $projects = $pager->fetchall($this->gitlab->projects, 'all');
         $output->writeln(' OK');
 
         ProgressBar::setFormatDefinition('custom', "%message% \n%current%/%max% [%bar%] %percent:3s%% \n");
@@ -51,36 +50,20 @@ final class BuildCommand extends Command
         $progress->setFormat('custom');
 
         foreach ($projects as $project) {
-            $project = Project::fromArray($this->gitlab, $project);
-
             $progress->setMessage(sprintf('Parse project "%s"...', $project->name));
 
-            foreach ($project->branches() as $branch) {
-                try {
-                    $this->manager->registerBranch($branch);
-
-                } catch (\Exception $e) {
-                    continue;
-                }
-            }
-
-            foreach ($project->tags() as $tag) {
-                try {
-                    $this->manager->registerTag($tag);
-
-                } catch (\Exception $e) {
-                    continue;
-                }
-            }
+            $this->repositoryManager->registerProject(
+                Project::fromArray($this->gitlab, $project)
+            );
 
             $progress->advance();
-
         }
+
         $progress->setMessage('Parse projects... OK');
         $progress->finish();
 
         $output->write('Persist JSON in cache...');
-        $this->manager->save();
+        $this->repositoryManager->save();
         $output->writeln(' OK');
 
         $output->writeln('Finished');
