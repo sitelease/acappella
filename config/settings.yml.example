@@ -2,5 +2,5 @@ parameters:
   composer.url:   https://composer.my-website.com   # The composer repository base URL (with http/https protocol)
   composer.dir:   /path/to/CompoLab/public          # Path to /public dir
   gitlab.url:     https://gitlab.my-website.com     # Gitlab base URL (with http/https protocol)
-  gitlab.token:   ********************              # Gitlab token
+  gitlab.token:   XXXXXXXXXXXXXXXXXXXX              # Gitlab token
   gitlab.method:  url_token                         # Gitlab authentication method
