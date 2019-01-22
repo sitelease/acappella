@@ -4,6 +4,7 @@ namespace CompoLab\Application\Http\Controller;
 
 use CompoLab\Application\GitlabRepositoryManager;
 use Gitlab\Client as Gitlab;
+use Gitlab\Model\Project;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +45,12 @@ final class GitlabController
             ]);
         }
 
+        if (!isset($event['project']) or !$project = Project::fromArray($this->gitlab, $event['project'])) {
+            throw new BadRequestHttpException('Impossible te retrieve a Gitlab project from the request');
+        }
+
+        $this->repositoryManager->registerProject($project);
+        $this->repositoryManager->save();
 
         return new JsonResponse([
             'status' => 200,

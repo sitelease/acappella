@@ -32,6 +32,31 @@ final class GitlabRepositoryManager
         $this->gitlab = $gitlab;
     }
 
+    public function registerProject(Project $project)
+    {
+        // Catch exceptions as a branch or tag
+        // may contain a version without any
+        // composer.json file
+
+        foreach ($project->branches() as $branch) {
+            try {
+                $this->registerBranch($branch);
+
+            } catch (\Exception $e) {
+                continue;
+            }
+        }
+
+        foreach ($project->tags() as $tag) {
+            try {
+                $this->registerTag($tag);
+
+            } catch (\Exception $e) {
+                continue;
+            }
+        }
+    }
+
     public function registerBranch(Branch $branch)
     {
         $this->repositoryCache->addPackage(
