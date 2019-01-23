@@ -23,8 +23,5 @@
       "CompoLab\\": "src",
       "CompoLab\\Tests\\": "tests/src"
     }
-  },
-  "scripts": {
-    "post-create-project-cmd": "sh install.sh"
   }
 }
