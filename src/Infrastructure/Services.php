@@ -24,7 +24,7 @@ final class Services
     /** @var self */
     private static $instance;
 
-    /** @var ContainerBuilder */
+    /** @var ContainerInterface */
     private $services;
 
     public function __construct(ContainerInterface $services)

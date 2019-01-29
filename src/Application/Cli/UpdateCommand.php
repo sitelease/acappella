@@ -39,22 +39,15 @@ final class UpdateCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $projectId = $input->getArgument('project');
+        $projectId = (string) $input->getArgument('project');
 
         $output->write(sprintf('Find project %d from GitLab...', $projectId));
-
         $project = (new Project($projectId, $this->gitlab))->show();
-        if (!$project) {
-            throw new InvalidArgumentException(sprintf('Impossible to retrieve Gitlab project %d', $projectId));
-        }
-
         $output->writeln(' OK');
 
         $output->write('Update project in CompoLab...');
-
         $this->repositoryManager->registerProject($project);
         $this->repositoryManager->save();
-
         $output->writeln(' OK');
 
         $output->writeln('Finished');

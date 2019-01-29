@@ -30,12 +30,12 @@ trait JsonConvertibleTrait
         }
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(/** @scrutinizer ignore-unused */ $offset, /** @scrutinizer ignore-unused */ $value)
     {
         throw new \RuntimeException('Array access is read-only');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(/** @scrutinizer ignore-unused */ $offset)
     {
         throw new \RuntimeException('Array access is read-only');
     }
@@ -47,7 +47,7 @@ trait JsonConvertibleTrait
 
     private function getObjectProperties(): array
     {
-        if ($this->objPropertiesCache) {
+        if (!empty($this->objPropertiesCache)) {
             return $this->objPropertiesCache;
         }
 

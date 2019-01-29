@@ -143,7 +143,7 @@ final class GitlabRepositoryManager
 
     private function getComposerJson(Commit $commit): array
     {
-        $jsonString = $commit
+        $jsonString = (string) $commit
             ->getClient()
             ->repositoryFiles()
             ->getRawFile($commit->project->id, 'composer.json', $commit->id)

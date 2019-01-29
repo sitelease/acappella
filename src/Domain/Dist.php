@@ -42,7 +42,7 @@ final class Dist implements JsonConvertible
         $this->shasum = $shasum;
 
         if (is_null($shasum) and !$shasum = sha1_file((string) $localPath)) {
-            throw new \RuntimeException('Impossible to compute SHA checksum on file %s', $localPath);
+            throw new \RuntimeException(sprintf('Impossible to compute SHA checksum on file %s', $localPath));
         }
         $this->shasum = $shasum;
 
