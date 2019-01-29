@@ -11,9 +11,13 @@ final class JsonRepositoryCache implements RepositoryCache
     /** @var Repository */
     private $repository;
 
-    public function __construct(Repository $repository)
+    /** @var int */
+    private $jsonOptions;
+
+    public function __construct(Repository $repository, int $jsonOptions = JSON_PRETTY_PRINT)
     {
         $this->repository = $repository;
+        $this->jsonOptions = $jsonOptions;
     }
 
     public function getRepository(): Repository
@@ -45,7 +49,7 @@ final class JsonRepositoryCache implements RepositoryCache
     {
         $jsonPath = $this->repository->getIndexFile();
 
-        if (!file_put_contents($jsonPath, json_encode($this->repository, JSON_PRETTY_PRINT))) {
+        if (!file_put_contents($jsonPath, json_encode($this->repository, $this->jsonOptions))) {
             throw new \RuntimeException(sprintf('Impossible to save repository to %s', $jsonPath));
         }
     }

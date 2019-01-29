@@ -25,7 +25,7 @@ services:
 
   cache:
     class:        CompoLab\Infrastructure\JsonRepositoryCache
-    arguments:    ['@repository']
+    arguments:    ['@repository', 0]
 
   manager:
     public:       true
