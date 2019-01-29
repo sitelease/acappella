@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class BuildCommand extends Command
+final class SyncCommand extends Command
 {
     /** @var Gitlab */
     private $gitlab;
@@ -30,19 +30,19 @@ final class BuildCommand extends Command
     public function configure()
     {
         $this
-            ->setName('build')
-            ->setDescription('Build the composer cache from Git')
+            ->setName('sync')
+            ->setDescription('Sync the CompoLab cache with GitLab')
+            ->setHelp('This command will list all GitLab projects (accessible with the specified token), generate a complete packages.json based on this list and download all package archives into the web-accessible cache directory.')
         ;
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Build composer server cache');
+        $output->write('List all projects...');
 
         $pager = new ResultPager($this->gitlab);
-
-        $output->write('List all projects...');
         $projects = $pager->fetchall($this->gitlab->projects, 'all');
+
         $output->writeln(' OK');
 
         ProgressBar::setFormatDefinition('custom', "%message% \n%current%/%max% [%bar%] %percent:3s%% \n");

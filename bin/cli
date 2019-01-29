@@ -6,14 +6,18 @@ umask(0);
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
-use CompoLab\Application\Cli\BuildCommand;
+use CompoLab\Application\Cli\SyncCommand;
+use CompoLab\Application\Cli\UpdateCommand;
 use CompoLab\Infrastructure\Services;
 
-$services = Services::getInstance(false);
+//try {
+    $services = Services::getInstance(false);
 
-$app = new Application('CompoLab', 'v1.0');
-$app->add(new BuildCommand(
-    $services->gitlab,
-    $services->manager
-));
-$app->run();
+    $app = new Application('CompoLab', 'v1.0');
+    $app->add(new SyncCommand($services->gitlab, $services->manager));
+    $app->add(new UpdateCommand($services->gitlab, $services->manager));
+    $app->run();
+
+//} catch (\Exception $e) {
+//    echo "An error occured.\nTry the `php bin/install` command if CompoLab has not yet been configured.\n";
+//}
