@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+umask(0);
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use CompoLab\Application\Cli\InstallCommand;
+
+$app = new Application('CompoLab Installer', 'v1.0');
+$app->setDefaultCommand('install');
+$app->add(new InstallCommand);
+$app->run();
