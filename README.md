@@ -23,21 +23,23 @@ A (preferably unix) server configured with:
 
 ### Installation 
 
-1. From your GitLab instance, edit your own profile, then go to `Access Tokens` and create a token with any name (eg. 
-CompoLab), no expiration date and check only `api` and `sudo` scopes. If you are not an admin with a `sudo` token, you 
-may be restricted in term of the groups and projects you'll be able to cache in your CompoLab repository.
+1. From your GitLab instance, edit your own profile, then go to `Access Tokens` and create a token with the name of your 
+choice (eg. CompoLab), no expiration date, and check only `api` and `sudo` scopes. If you are not an admin with a `sudo` 
+token, you may be restricted in term of the groups and projects you'll be able to cache in your CompoLab repository.
 
 2. Run the following composer command on the server you want to use as a Composer repository:
-`composer create-project bricev/compolab /var/www/compolab` (where the last command argument is the path where you want 
-to install CompoLab).
+`composer create-project bricev/compolab --no-dev --keep-vcs /var/www/compolab` (where the last command argument is the 
+path where you want to install CompoLab).
 
-3. Execute the installation script by running the command: `sh install.sh`. 
+3. Execute the installation script by running the command: `php bin/install` (from CompoLab directory). 
 Get ready to register your GitLab URL and token during this step.
 Settings will be persisted in the `config/settings.yml` file (which is not versioned). 
-You may use the `config/settings.yml.example` template to create this manually in case the post-install script fails.
+You may use the `config/settings.yml.example` template to create this manually if you prefer.
 
 4. The web server must be properly configured to receive GitLab webhooks and receive `GET /packages.json` requests. 
-A documented Nginx configuration example can be found here: `config/templates/nginx.conf`
+The main concern is to make `public/packages.json` and `public/archives` accessible from the root of your domain (eg. 
+https://composer.my-website.com/packages.json). All other queries must be forwarded to `public/index.php`.
+A documented Nginx configuration example can be found here: `config/templates/nginx.conf`.
 
 5. From your GitLab instance, go to the `Admin Area` > `System hooks` and configure a system hook with URL 
 `https://composer.my-website.com/gitlab` (where `composer.my-website.com` is the domain or IP you want to use with your 
@@ -60,14 +62,12 @@ composer config -g repositories.compolab composer https://composer.my-website.co
 This command should add a `~/.composer/config.json` (on Unix systems) file containing the following lines:
 ```json
 {
-    // [...]
     "repositories": {
         "compolab": {
             "type": "composer",
             "url": "https://composer.my-website.com"
         }
-    },
-    // [...]
+    }
 }
 ```
 
@@ -76,14 +76,12 @@ This command should add a `~/.composer/config.json` (on Unix systems) file conta
 OR you may set the repository address directly in your package's composer.json file:
 ```json
 {
-    // [...]
     "repositories": [
         {
             "type": "composer",
             "url": "https://composer.my-website.com"
         }
-    ],
-    // [...]
+    ]
 }
 ```
 

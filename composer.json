@@ -23,10 +23,5 @@
       "CompoLab\\": "src",
       "CompoLab\\Tests\\": "tests/src"
     }
-  },
-  "scripts": {
-    "post-create-project-cmd": [
-      "@php bin/install"
-    ]
   }
 }
