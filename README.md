@@ -1,5 +1,9 @@
 CompoLab
-===
+========
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bricev/CompoLab/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bricev/CompoLab/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/bricev/CompoLab/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bricev/CompoLab/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/bricev/CompoLab/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bricev/CompoLab/build-status/master)
 
 CompoLab is a PHP package repository server that makes all your GitLab compliant repositories available as Composer 
 dependencies.
