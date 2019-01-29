@@ -39,8 +39,7 @@ final class UpdateCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $projectId = (string) $input->getArgument('project');
-
+        $projectId = (int) $input->getArgument('project');
         $output->write(sprintf('Find project %d from GitLab...', $projectId));
         $project = (new Project($projectId, $this->gitlab))->show();
         $output->writeln(' OK');
