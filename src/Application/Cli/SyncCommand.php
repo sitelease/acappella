@@ -50,7 +50,7 @@ final class SyncCommand extends Command
         $progress->setFormat('custom');
 
         foreach ($projects as $project) {
-            $progress->setMessage(sprintf('Parse project "%s"...', $project->name));
+            $progress->setMessage(sprintf('Parse project "%s"...', $project['name']));
 
             $this->repositoryManager->registerProject(
                 Project::fromArray($this->gitlab, $project)
