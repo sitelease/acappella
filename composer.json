@@ -1,7 +1,6 @@
 {
   "name": "bricev/compolab",
   "description": "Composer Repository for GitLab",
-  "minimum-stability": "dev",
   "license": "proprietary",
   "require": {
     "php": "^7.1",
