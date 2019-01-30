@@ -13,17 +13,17 @@ directory.
 
 ### Security disclaimer
 
-By Default, CompoLab is not secured and will let anyone access your packages. 
-In order to secure access to your packages, you may configure your web server any way you want. 
-Eg. you may filter by IP or require the use of your own self-signed SSL certificate.
+By default, CompoLab is not secured and will let anyone access your packages. 
+In order to secure access to your packages, you must configure your web server any way you want. 
+Eg. you may filter with an IP whitelist, or require the use of your own self-signed SSL certificate.
 
 ### Requirements
 
 A (preferably unix) server configured with: 
 - PHP 7.1+
-- Composer
+- Git / Composer
 - A web server (Nginx or Apache)
-- A GitLab working installation (with an admin user account)
+- A working instance of GitLab (with an admin user account)
 
 ### Installation 
 
