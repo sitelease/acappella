@@ -45,16 +45,22 @@ The main concern is to make `public/packages.json` and `public/archives` accessi
 https://composer.my-website.com/packages.json). All other queries must be forwarded to `public/index.php`.
 A documented Nginx configuration example can be found here: `config/templates/nginx.conf`.
 
-5. From your GitLab instance, go to the `Admin Area` > `System hooks` and configure a system hook with URL 
+5. Use the `cli` application from your server and run the following command `php bin/cli sync` : this will fully 
+synchronize your GitLab server with your CompoLab repository. Once executed, all distribution archives will be stored in 
+the CompoLab cache and the `packages.json` index will be up to date.
+
+6. From your GitLab instance, go to the `Admin Area` > `System hooks` and configure a system hook with URL 
 `https://composer.my-website.com/gitlab` (where `composer.my-website.com` is the domain or IP you want to use with your 
 CompoLab instance), no secret token as you are advised to insure security at the web server level, and check only 
 `Push events`, `Tag push events` and `Enable SSL verification` (if your web server is properly configured to accept SSL 
 requests).
 
+You're all set: your repository is complete and any future push/tag made to GitLab will be registred by CompoLab.
+
 ### Usage
 
 In order to let your local Composer installation know where to find your CompoLab repository, you need to add some 
-configuration.
+configuration. You may configure your repository from your machine or directly from your package.
 
 ##### Local setting
 You may execute the following command on your local computer/server to let Composer knows about the existance of 
