@@ -33,33 +33,75 @@ final class JsonRepositoryCacheTest extends TestCase
 
         $json = json_decode(file_get_contents(__DIR__ . '/../../data/composer.json'), true);
 
-        $package = Package::buildFromArray(__DIR__ . '/../../cache', array_merge($json, [
+        self::$cache->addPackage(Package::buildFromArray(__DIR__ . '/../../cache', array_merge($json, [
             'version'       => 'dev-master',
             'source'        => [
                 'type'      => 'git',
                 'url'       => 'git@gitlab.my-website.com:vendor/project.git',
                 'reference' => '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
             ],
-        ]));
+        ])));
 
-        self::$cache->addPackage($package);
+        self::$cache->addPackage(Package::buildFromArray(__DIR__ . '/../../cache', array_merge($json, [
+            'version'       => 'dev-feature',
+            'source'        => [
+                'type'      => 'git',
+                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'reference' => '8c7g1iu6249c789d4b6365c0d4c1205d36498i64',
+            ],
+        ])));
 
-        $this->assertEquals(1, count(self::$cache));
+        self::$cache->addPackage(Package::buildFromArray(__DIR__ . '/../../cache', array_merge($json, [
+            'version'       => 'dev-other-feature',
+            'source'        => [
+                'type'      => 'git',
+                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'reference' => '1x9f6xo4297r146w9c5469c0d2w8796x65398i10',
+            ],
+        ])));
+
+        $this->assertEquals(3, count(self::$cache));
     }
 
     /**
      *
      * @depends testAddPackage
      */
+    public function testRemovePackage()
+    {
+        $json = json_decode(file_get_contents(__DIR__ . '/../../data/composer.json'), true);
+
+        self::$cache->removePackage(Package::buildFromArray(__DIR__ . '/../../cache', array_merge($json, [
+            'version'       => 'dev-feature',
+            'source'        => [
+                'type'      => 'git',
+                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'reference' => '8c7g1iu6249c789d4b6365c0d4c1205d36498i64',
+            ],
+        ])));
+
+        $this->assertEquals(2, count(self::$cache));
+    }
+
+    /**
+     *
+     * @depends testRemovePackage
+     */
     public function testRefresh()
     {
         self::$cache->refresh();
 
-        $json = json_decode(file_get_contents(__DIR__ . '/../../cache/packages.json'), true);
+        $json = file_get_contents(__DIR__ . '/../../cache/packages.json');
+
+        $this->assertEquals(2, count(Repository::buildFromJson(
+            new Url('https://composer.my-website.com'),
+            new Dir(__DIR__ . '/../../cache'),
+            $json
+        )));
 
         $this->assertEquals(
             '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
-            $json['packages']['vendor/project']['dev-master']['source']['reference']
+            json_decode($json, true)['packages']['vendor/project']['dev-master']['source']['reference']
         );
     }
 
