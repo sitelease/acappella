@@ -20,7 +20,7 @@ Eg. you may filter with an IP whitelist, or require the use of your own self-sig
 ### Requirements
 
 A (preferably unix) server configured with: 
-- PHP 7.1+
+- PHP 7.1 (A PHP component encounters an issue with PHP 7.2, making this code only compliant with 7.1)
 - Git / Composer
 - A web server (Nginx or Apache)
 - A working instance of GitLab (with an admin user account)
