@@ -12,7 +12,6 @@ use CompoLab\Domain\Type\Tar;
 use CompoLab\Domain\ValueObject\Reference;
 use CompoLab\Domain\ValueObject\Url;
 use CompoLab\Domain\ValueObject\Version;
-use Gitlab\Client as Gitlab;
 use Gitlab\Model\Branch;
 use Gitlab\Model\Commit;
 use Gitlab\Model\Project;
@@ -23,13 +22,9 @@ final class GitlabRepositoryManager
     /** @var RepositoryCache */
     private $repositoryCache;
 
-    /** @var Gitlab */
-    private $gitlab;
-
-    public function __construct(RepositoryCache $repositoryCache, Gitlab $gitlab)
+    public function __construct(RepositoryCache $repositoryCache)
     {
         $this->repositoryCache = $repositoryCache;
-        $this->gitlab = $gitlab;
     }
 
     public function registerProject(Project $project)
@@ -69,6 +64,17 @@ final class GitlabRepositoryManager
         $this->repositoryCache->addPackage(
             $this->getPackageFromTag($tag)
         );
+    }
+
+    public function deleteProject(Project $project)
+    {
+        foreach ($project->branches() as $branch) {
+            $this->deleteBranch($branch);
+        }
+
+        foreach ($project->tags() as $tag) {
+            $this->deleteTag($tag);
+        }
     }
 
     public function deleteBranch(Branch $branch)

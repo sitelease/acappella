@@ -36,8 +36,21 @@ final class GitlabController
             throw new BadRequestHttpException('Missing event_name from body');
         }
 
-        if (!in_array($event['event_name'], ['push', 'tag_push'])) {
-            return new JsonResponse([
+        if (!isset($event['project']) or !$project = Project::fromArray($this->gitlab, $event['project'])) {
+            throw new BadRequestHttpException('Impossible te retrieve a Gitlab project from the request');
+        }
+
+        switch ($event['event_name']) {
+            case 'project_destroy':
+                $this->repositoryManager->deleteProject($project);
+                break;
+
+            case 'push':
+            case 'tag_push':
+                $this->repositoryManager->registerProject($project);
+                break;
+
+            default: return new JsonResponse([
                 'status' => 200,
                 'message' => 'CompoLab has NOT handled the Gitlab event',
                 'project_id' => $event['project_id'],
@@ -45,11 +58,6 @@ final class GitlabController
             ]);
         }
 
-        if (!isset($event['project']) or !$project = Project::fromArray($this->gitlab, $event['project'])) {
-            throw new BadRequestHttpException('Impossible te retrieve a Gitlab project from the request');
-        }
-
-        $this->repositoryManager->registerProject($project);
         $this->repositoryManager->save();
 
         return new JsonResponse([

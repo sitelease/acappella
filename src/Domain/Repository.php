@@ -94,6 +94,10 @@ final class Repository implements \Countable, \JsonSerializable
 
         unset($this->packages[$package->getName()][(string) $package->getVersion()]);
         $this->count--;
+
+        if (empty($this->packages[$package->getName()])) {
+            unset($this->packages[$package->getName()]);
+        }
     }
 
     /**

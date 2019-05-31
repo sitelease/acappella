@@ -30,4 +30,4 @@ services:
   manager:
     public:       true
     class:        CompoLab\Application\GitlabRepositoryManager
-    arguments:    ['@cache', '@gitlab']
+    arguments:    ['@cache']

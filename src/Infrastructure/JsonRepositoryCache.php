@@ -37,7 +37,7 @@ final class JsonRepositoryCache implements RepositoryCache
 
     public function removePackage(Package $package)
     {
-        /** @todo Implement removePackage() method */
+        $this->repository->removePackage($package);
     }
 
     private function upsertPackage(Package $package)
