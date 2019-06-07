@@ -16,6 +16,7 @@ use Gitlab\Model\Branch;
 use Gitlab\Model\Commit;
 use Gitlab\Model\Project;
 use Gitlab\Model\Tag;
+use Gitlab\ResultPager;
 
 final class GitlabRepositoryManager
 {
@@ -42,9 +43,11 @@ final class GitlabRepositoryManager
             }
         }
 
-        foreach ($project->tags() as $tag) {
+        $gitlab = $project->getClient();
+        $pager = new ResultPager($gitlab);
+        foreach ($pager->fetchall($gitlab->tags, 'all', [ $project->id ]) as $tagData) {
             try {
-                $this->registerTag($tag);
+                $this->registerTag(Tag::fromArray($gitlab, $project, $tagData));
 
             } catch (\Exception $e) {
                 continue;
@@ -200,7 +203,7 @@ final class GitlabRepositoryManager
                 $path,
                 $commit->getClient()->repositories()->archive(
                     $commit->project->id,
-                    ['ref' => $commit->id]
+                    ['sha' => $commit->id]
                 )
             );
 
