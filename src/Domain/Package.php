@@ -76,11 +76,11 @@ final class Package implements JsonConvertible
 
     public function _toArray(): array
     {
-        return array_merge([
+        return array_merge($this->configuration->_toArray(), [
             'name'    => $this->name,
             'version' => (string) $this->version,
             'source'  => $this->source,
             'dist'    => $this->dist,
-        ], $this->configuration->_toArray());
+        ]);
     }
 }
