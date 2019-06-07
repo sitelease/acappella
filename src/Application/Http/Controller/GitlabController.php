@@ -36,7 +36,10 @@ final class GitlabController
             throw new BadRequestHttpException('Missing event_name from body');
         }
 
-        if (!isset($event['project']) or !$project = Project::fromArray($this->gitlab, $event['project'])) {
+        if (!isset($event['project_id']) or !$project = Project::fromArray(
+            $this->gitlab,
+            $this->gitlab->projects()->show($event['project_id']))
+        ){
             throw new BadRequestHttpException('Impossible te retrieve a Gitlab project from the request');
         }
 
