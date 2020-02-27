@@ -3,8 +3,7 @@
   "description": "Composer Repository for GitLab",
   "license": "proprietary",
   "require": {
-    "php": ">=7.1.0, <7.2.0",
-    "m4tthumphrey/php-gitlab-api": "^9.0",
+    "sitelease/gitea-php": "@dev",
     "php-http/guzzle6-adapter": "^1.0",
     "symfony/config": "^4.0",
     "symfony/console": "^4.0",
@@ -21,6 +20,15 @@
     "psr-4": {
       "CompoLab\\": "src",
       "CompoLab\\Tests\\": "tests/src"
+    }
+  },
+  "repositories": {
+    "local": {
+      "type": "path",
+      "url": "../gitea.php/",
+      "options": {
+        "symlink": true
+      }
     }
   }
 }
