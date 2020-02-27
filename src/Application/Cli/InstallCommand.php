@@ -71,8 +71,8 @@ final class InstallCommand extends Command
             return $value;
         }));
 
-        $gitlabURL = $helper->ask($input, $output, (new Question(
-            'Enter your GitLab server URL (eg. https://gitlab.my-website.com): '
+        $giteaURL = $helper->ask($input, $output, (new Question(
+            'Enter your Gitea server URL (eg. https://gitea.my-website.com): '
         ))->setNormalizer(function ($value) {
             return trim((string) $value);
         })->setValidator(function ($value) {
@@ -82,8 +82,8 @@ final class InstallCommand extends Command
             return $value;
         }));
 
-        $gitlabToken = $helper->ask($input, $output, (new Question(
-            'Enter a valid Gitlab authentication token (url_token method): '
+        $giteaToken = $helper->ask($input, $output, (new Question(
+            'Enter a valid Gitea authentication token (url_token method): '
         ))->setNormalizer(function ($value) {
             return trim((string) $value);
         })->setHidden(true));
@@ -93,9 +93,9 @@ final class InstallCommand extends Command
             'parameters' => [
                 'composer.url'  => $composerURL,
                 'composer.dir'  => $composerPublicDirPath,
-                'gitlab.url'    => $gitlabURL,
-                'gitlab.token'  => $gitlabToken,
-                'gitlab.method' => 'url_token',
+                'gitea.url'    => $giteaURL,
+                'gitea.token'  => $giteaToken,
+                'gitea.method' => 'url_token',
             ]
         ]));
         $output->writeln('OK');

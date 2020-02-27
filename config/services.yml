@@ -2,13 +2,11 @@ imports:
     - { resource: settings.yml }
 
 services:
-  gitlab:
+  gitea:
     public:       true
-    class:        Gitlab\Client
-    factory:      Gitlab\Client::create
-    arguments:    ['%gitlab.url%']
-    calls:
-      - [authenticate, ['%gitlab.token%', '%gitlab.method%']]
+    class:        Gitea\Client
+    factory:      Gitea\Client::create
+    arguments:    ['%gitea.url%', '%gitea.token%']
 
   baseUrl:
     class:        CompoLab\Domain\ValueObject\Url
@@ -29,5 +27,5 @@ services:
 
   manager:
     public:       true
-    class:        CompoLab\Application\GitlabRepositoryManager
+    class:        CompoLab\Application\GiteaRepositoryManager
     arguments:    ['@cache']

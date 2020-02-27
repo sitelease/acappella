@@ -37,7 +37,7 @@ final class JsonRepositoryCacheTest extends TestCase
             'version'       => 'dev-master',
             'source'        => [
                 'type'      => 'git',
-                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'url'       => 'git@gitea.my-website.com:vendor/repository.git',
                 'reference' => '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
             ],
         ])));
@@ -46,7 +46,7 @@ final class JsonRepositoryCacheTest extends TestCase
             'version'       => 'dev-feature',
             'source'        => [
                 'type'      => 'git',
-                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'url'       => 'git@gitea.my-website.com:vendor/repository.git',
                 'reference' => '8c7g1iu6249c789d4b6365c0d4c1205d36498i64',
             ],
         ])));
@@ -55,7 +55,7 @@ final class JsonRepositoryCacheTest extends TestCase
             'version'       => 'dev-other-feature',
             'source'        => [
                 'type'      => 'git',
-                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'url'       => 'git@gitea.my-website.com:vendor/repository.git',
                 'reference' => '1x9f6xo4297r146w9c5469c0d2w8796x65398i10',
             ],
         ])));
@@ -75,7 +75,7 @@ final class JsonRepositoryCacheTest extends TestCase
             'version'       => 'dev-feature',
             'source'        => [
                 'type'      => 'git',
-                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'url'       => 'git@gitea.my-website.com:vendor/repository.git',
                 'reference' => '8c7g1iu6249c789d4b6365c0d4c1205d36498i64',
             ],
         ])));
@@ -101,7 +101,7 @@ final class JsonRepositoryCacheTest extends TestCase
 
         $this->assertEquals(
             '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
-            json_decode($json, true)['packages']['vendor/project']['dev-master']['source']['reference']
+            json_decode($json, true)['packages']['vendor/repository']['dev-master']['source']['reference']
         );
     }
 

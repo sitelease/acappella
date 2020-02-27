@@ -14,8 +14,8 @@ use CompoLab\Infrastructure\Services;
     $services = Services::getInstance(false);
 
     $app = new Application('CompoLab', 'v1.0');
-    $app->add(new SyncCommand($services->gitlab, $services->manager));
-    $app->add(new UpdateCommand($services->gitlab, $services->manager));
+    $app->add(new SyncCommand($services->gitea, $services->manager));
+    $app->add(new UpdateCommand($services->gitea, $services->manager));
     $app->run();
 
 //} catch (\Exception $e) {

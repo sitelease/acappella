@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 $services = Services::getInstance();
 
 $kernel = new CompoLabKernel(
-    $services->gitlab,
+    $services->gitea,
     $services->manager
 );
 

@@ -2,25 +2,25 @@
 
 namespace CompoLab\Tests\Application;
 
-use CompoLab\Application\GitlabRepositoryManager;
+use CompoLab\Application\GiteaRepositoryManager;
 use CompoLab\Domain\Repository;
 use CompoLab\Domain\ValueObject\Dir;
 use CompoLab\Domain\ValueObject\Url;
 use CompoLab\Infrastructure\JsonRepositoryCache;
 use CompoLab\Tests\Utils\DummyHttpClient;
-use Gitlab\Client;
-use Gitlab\HttpClient\Builder;
-use Gitlab\Model\Branch;
-use Gitlab\Model\Project;
-use Gitlab\Model\Tag;
+use Gitea\Client;
+use Gitea\HttpClient\Builder;
+use Gitea\Model\Branch;
+use Gitea\Model\Repository;
+use Gitea\Model\Tag;
 use PHPUnit\Framework\TestCase;
 
-final class GitlabRepositoryManagerTest extends TestCase
+final class GiteaRepositoryManagerTest extends TestCase
 {
     /** @var JsonRepositoryCache */
     private static $cache;
 
-    /** @var GitlabRepositoryManager */
+    /** @var GiteaRepositoryManager */
     private static $manager;
 
     public static function setUpBeforeClass()
@@ -30,43 +30,43 @@ final class GitlabRepositoryManagerTest extends TestCase
             new Dir(__DIR__ . '/../../cache')
         ));
 
-        self::$manager = new GitlabRepositoryManager(self::$cache);
+        self::$manager = new GiteaRepositoryManager(self::$cache);
     }
 
-    public function testAddProject()
+    public function testAddRepository()
     {
         $client = new Client(new Builder(
             new DummyHttpClient(file_get_contents(__DIR__ . '/../../data/composer.json'))
         ));
 
-        $project = Project::fromArray($client, [
+        $repository = Repository::fromArray($client, [
             'id' => 1,
-            'name' => 'project',
+            'name' => 'repository',
             'description' => null,
-            'web_url' => 'https://composer.my-website.com/vendor/project',
+            'web_url' => 'https://composer.my-website.com/vendor/repository',
             'avatar_url' => null,
-            'git_ssh_url' => 'git@composer.my-website.com:project.git',
-            'git_http_url' => 'https://composer.my-website.com/vendor/project.git',
+            'git_ssh_url' => 'git@composer.my-website.com:repository.git',
+            'git_http_url' => 'https://composer.my-website.com/vendor/repository.git',
             'namespace' => 'default',
             'visibility_level' => 0,
-            'path_with_namespace' => 'vendor/project',
+            'path_with_namespace' => 'vendor/repository',
             'default_branch' => 'master',
             'ci_config_path' => null,
-            'homepage' => 'https://composer.my-website.com/vendor/project',
-            'url' => 'git@composer.my-website.com:project.git',
-            'ssh_url' => 'git@composer.my-website.com:project.git',
-            'http_url' => 'https://composer.my-website.com/vendor/project.git',
-            'ssh_url_to_repo' => 'https://composer.my-website.com/vendor/project.git',
+            'homepage' => 'https://composer.my-website.com/vendor/repository',
+            'url' => 'git@composer.my-website.com:repository.git',
+            'ssh_url' => 'git@composer.my-website.com:repository.git',
+            'http_url' => 'https://composer.my-website.com/vendor/repository.git',
+            'ssh_url_to_repo' => 'https://composer.my-website.com/vendor/repository.git',
         ]);
 
-        $branch = Branch::fromArray($client, $project, [
+        $branch = Branch::fromArray($client, $repository, [
             'name' => '2.0',
             'commit' => [
                 'id' => '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
             ],
         ]);
 
-        $tag = Tag::fromArray($client, $project, [
+        $tag = Tag::fromArray($client, $repository, [
             'name' => 'v1.2.3',
             'commit' => [
                 'id' => '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',

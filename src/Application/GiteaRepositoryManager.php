@@ -12,13 +12,14 @@ use CompoLab\Domain\Type\Tar;
 use CompoLab\Domain\ValueObject\Reference;
 use CompoLab\Domain\ValueObject\Url;
 use CompoLab\Domain\ValueObject\Version;
-use Gitlab\Model\Branch;
-use Gitlab\Model\Commit;
-use Gitlab\Model\Project;
-use Gitlab\Model\Tag;
-use Gitlab\ResultPager;
+// use Gitea\Model\Commit;
+use Gitea\Model\Repository;
+use Gitea\Model\Branch;
+use Gitea\Model\Tag;
+use Gitea\Client;
+// use Gitea\ResultPager;
 
-final class GitlabRepositoryManager
+final class GiteaRepositoryManager
 {
     /** @var RepositoryCache */
     private $repositoryCache;
@@ -28,31 +29,46 @@ final class GitlabRepositoryManager
         $this->repositoryCache = $repositoryCache;
     }
 
-    public function registerProject(Project $project)
+    public function registerRepository(Repository $repository)
     {
         // Catch exceptions as a branch or tag
         // may contain a version without any
         // composer.json file
 
-        foreach ($project->branches() as $branch) {
-            try {
-                $this->registerBranch($branch);
+        $gitea = $repository->getClient();
+        $repositoryName = $repository->getFullName();
 
-            } catch (\Exception $e) {
-                continue;
+        $branches = $repository->branches();
+        if ($branches) {
+            print("Processing branches for ".$repositoryName."\n");
+            foreach ($branches as $branch) {
+                try {
+                    print("Processing ".$branch->getName()."\n");
+                    $this->registerBranch($branch);
+
+                } catch (\Exception $e) {
+                    continue;
+                }
             }
+        } else{
+            throw new \RuntimeException(sprintf('Impossible to get branches from repository "%s"',
+                $repositoryName));
         }
 
-        $gitlab = $project->getClient();
-        $pager = new ResultPager($gitlab);
-        foreach ($pager->fetchall($gitlab->tags, 'all', [ $project->id ]) as $tagData) {
-            try {
-                $this->registerTag(Tag::fromArray($gitlab, $project, $tagData));
+        $tags = $repository->tags();
+        if ($tags) {
+            print("Processing tags for ".$repositoryName."\n");
+            foreach ($tags as $tag) {
+                try {
+                    print("Processing ".$tag->getName()."\n");
+                    $this->registerTag($tag);
 
-            } catch (\Exception $e) {
-                continue;
+                } catch (\Exception $e) {
+                    continue;
+                }
             }
         }
+        return true;
     }
 
     public function registerBranch(Branch $branch)
@@ -69,17 +85,19 @@ final class GitlabRepositoryManager
         );
     }
 
-    public function deleteProject(Project $project)
+    /** TODO: Update */
+    public function deleteRepository(Repository $repository)
     {
-        foreach ($project->branches() as $branch) {
+        foreach ($repository->branches() as $branch) {
             $this->deleteBranch($branch);
         }
 
-        foreach ($project->tags() as $tag) {
+        foreach ($repository->tags() as $tag) {
             $this->deleteTag($tag);
         }
     }
 
+    /** TODO: Update */
     public function deleteBranch(Branch $branch)
     {
         $this->repositoryCache->removePackage(
@@ -87,6 +105,7 @@ final class GitlabRepositoryManager
         );
     }
 
+    /** TODO: Update */
     public function deleteTag(Tag $tag)
     {
         $this->repositoryCache->removePackage(
@@ -99,21 +118,29 @@ final class GitlabRepositoryManager
         $this->repositoryCache->refresh();
     }
 
+    /** TODO: Update */
     private function getPackageFromBranch(Branch $branch): Package
     {
-        $composerJson = $this->getComposerJson($branch->commit);
+        $branchName = $branch->getName();
 
-        $version = Version::buildFromString($branch->name);
+        $branch->searchRequestChain();
+
+        $composerJson = $this->getComposerJson(
+            $branch->getClient(), $branchName
+        );
+
+        $version = Version::buildFromString($branchName);
 
         return new Package(
             $composerJson['name'],
             $version,
             new PackageConfiguration($composerJson),
-            $this->getSource($branch->project, $branch->commit),
+            $this->getSource($branch->repository, $branch->commit),
             $this->getDist($composerJson['name'], $version, $branch->commit)
         );
     }
 
+    /** TODO: Update */
     private function getPackageFromTag(Tag $tag): Package
     {
         $composerJson = $this->getComposerJson($tag->commit);
@@ -124,20 +151,22 @@ final class GitlabRepositoryManager
             $composerJson['name'],
             $version,
             new PackageConfiguration($composerJson),
-            $this->getSource($tag->project, $tag->commit),
+            $this->getSource($tag->repository, $tag->commit),
             $this->getDist($composerJson['name'], $version, $tag->commit)
         );
     }
 
-    private function getSource(Project $project, Commit $commit): Source
+    /** TODO: Update */
+    private function getSource(Repository $repository, Commit $commit): Source
     {
         return new Source(
             new Git,
-            new Url($project->ssh_url_to_repo),
+            new Url($repository->ssh_url_to_repo),
             new Reference($commit->id)
         );
     }
 
+    /** TODO: Update */
     private function getDist(string $name, Version $version, Commit $commit): Dist
     {
         $archivePath = $this->getArchivePath($name, $version, $commit);
@@ -150,29 +179,32 @@ final class GitlabRepositoryManager
         );
     }
 
-    private function getComposerJson(Commit $commit): array
+    /** TODO: Update */
+    private function getComposerJson(Repository $repository, string $gitRef): array
     {
-        $jsonString = (string) $commit
-            ->getClient()
-            ->repositoryFiles()
-            ->getRawFile($commit->project->id, 'composer.json', $commit->id)
-        ;
+        $jsonString = $client->repositories()->getRawFile(
+            $repository->getOwner(),
+            $repository->getName(),
+            $gitRef
+        );
+        // ->getRawFile($commit->repository->id, 'composer.json', $commit->id)
 
         if (!$jsonArray = json_decode($jsonString, true)) {
-            throw new \RuntimeException(sprintf('Impossible to get composer.json from project %d (ref: %s)',
-                $commit->project->id,
+            throw new \RuntimeException(sprintf('Impossible to get composer.json from repository %d (ref: %s)',
+                $commit->repository->id,
                 $commit->id));
         }
 
         if (!in_array('name', array_keys($jsonArray))) {
-            throw new \RuntimeException(sprintf('Malformed composer.json from project %d (ref: %s)',
-                $commit->project->id,
+            throw new \RuntimeException(sprintf('Malformed composer.json from repository %d (ref: %s)',
+                $commit->repository->id,
                 $commit->id));
         }
 
         return $jsonArray;
     }
 
+    /** TODO: Update */
     private function getArchivePath(string $name, Version $version, Commit $commit): string
     {
         $archivePath = Dist::buildArchivePath($name, $version, new Reference($commit->id));
@@ -188,6 +220,7 @@ final class GitlabRepositoryManager
         return $archivePath;
     }
 
+    /** TODO: Update */
     private function createArchive(string $path, Commit $commit)
     {
         $path = sprintf('%s/%s',
@@ -202,7 +235,7 @@ final class GitlabRepositoryManager
             file_put_contents(
                 $path,
                 $commit->getClient()->repositories()->archive(
-                    $commit->project->id,
+                    $commit->repository->id,
                     ['sha' => $commit->id]
                 )
             );

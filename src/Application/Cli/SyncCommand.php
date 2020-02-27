@@ -2,10 +2,8 @@
 
 namespace CompoLab\Application\Cli;
 
-use CompoLab\Application\GitlabRepositoryManager;
-use Gitlab\Client as Gitlab;
-use Gitlab\Model\Project;
-use Gitlab\ResultPager;
+use CompoLab\Application\GiteaRepositoryManager;
+use Gitea\Client as Gitea;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,15 +11,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class SyncCommand extends Command
 {
-    /** @var Gitlab */
-    private $gitlab;
+    /** @var Gitea */
+    private $gitea;
 
-    /** @var GitlabRepositoryManager */
+    /** @var GiteaRepositoryManager */
     private $repositoryManager;
 
-    public function __construct(Gitlab $gitlab, GitlabRepositoryManager $repositoryManager)
+    public function __construct(Gitea $gitea, GiteaRepositoryManager $repositoryManager)
     {
-        $this->gitlab = $gitlab;
+        $this->gitea = $gitea;
         $this->repositoryManager = $repositoryManager;
 
         parent::__construct();
@@ -32,34 +30,36 @@ final class SyncCommand extends Command
         $this
             ->setName('sync')
             ->setDescription('Sync the CompoLab cache with GitLab')
-            ->setHelp('This command will list all GitLab projects (accessible with the specified token), generate a complete packages.json based on this list and download all package archives into the web-accessible cache directory.')
+            ->setHelp('This command will list all GitLab repositories (accessible with the specified token), generate a complete packages.json based on this list and download all package archives into the web-accessible cache directory.')
         ;
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->write('List all projects...');
+        $output->write('List all repositories...');
 
-        $pager = new ResultPager($this->gitlab);
-        $projects = $pager->fetchall($this->gitlab->projects, 'all');
+        $gitea = $this->gitea;
+        $repositories = $gitea->repositories()->all();
 
         $output->writeln(' OK');
 
         ProgressBar::setFormatDefinition('custom', "%message% \n%current%/%max% [%bar%] %percent:3s%% \n");
-        $progress = new ProgressBar($output, count($projects));
+        $progress = new ProgressBar($output, count($repositories));
         $progress->setFormat('custom');
 
-        foreach ($projects as $project) {
-            $progress->setMessage(sprintf('Parse project "%s"...', $project['name']));
+        // Progress bar redraw settings
+        $progress->setRedrawFrequency(100);
+        $progress->minSecondsBetweenRedraws(0.1);
+        $progress->maxSecondsBetweenRedraws(0.5);
 
-            $this->repositoryManager->registerProject(
-                Project::fromArray($this->gitlab, $project)
-            );
+        foreach ($repositories as $repository) {
+            $progress->setMessage(sprintf('Parse repository "%s"...', $repository->getFullName()));
 
+            $this->repositoryManager->registerRepository($repository);
             $progress->advance();
         }
 
-        $progress->setMessage('Parse projects... OK');
+        $progress->setMessage('Parse repositories... OK');
         $progress->finish();
 
         $output->write('Persist JSON in cache...');

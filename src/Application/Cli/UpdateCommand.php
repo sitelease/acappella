@@ -2,9 +2,9 @@
 
 namespace CompoLab\Application\Cli;
 
-use CompoLab\Application\GitlabRepositoryManager;
-use Gitlab\Client as Gitlab;
-use Gitlab\Model\Project;
+use CompoLab\Application\GiteaRepositoryManager;
+use Gitea\Client as Gitea;
+use Gitea\Model\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,15 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class UpdateCommand extends Command
 {
-    /** @var Gitlab */
-    private $gitlab;
+    /** @var Gitea */
+    private $gitea;
 
-    /** @var GitlabRepositoryManager */
+    /** @var GiteaRepositoryManager */
     private $repositoryManager;
 
-    public function __construct(Gitlab $gitlab, GitlabRepositoryManager $repositoryManager)
+    public function __construct(Gitea $gitea, GiteaRepositoryManager $repositoryManager)
     {
-        $this->gitlab = $gitlab;
+        $this->gitea = $gitea;
         $this->repositoryManager = $repositoryManager;
 
         parent::__construct();
@@ -30,21 +30,21 @@ final class UpdateCommand extends Command
     {
         $this
             ->setName('update')
-            ->setDescription('Update a GitLab project in CompoLab')
-            ->setHelp('This command will update a specific project (tags and branches) in the packages.json file, and download associated package archives into the web-accessible cache directory.')
-            ->addArgument('project', InputArgument::REQUIRED, 'Project ID (can be found from GitLab in project settings')
+            ->setDescription('Update a GitLab repository in CompoLab')
+            ->setHelp('This command will update a specific repository (tags and branches) in the packages.json file, and download associated package archives into the web-accessible cache directory.')
+            ->addArgument('repository', InputArgument::REQUIRED, 'Repository ID (can be found from GitLab in repository settings')
         ;
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $projectId = (int) $input->getArgument('project');
-        $output->write(sprintf('Find project %d from GitLab...', $projectId));
-        $project = (new Project($projectId, $this->gitlab))->show();
+        $repositoryId = (int) $input->getArgument('repository');
+        $output->write(sprintf('Find repository %d from GitLab...', $repositoryId));
+        $repository = (new Repository($repositoryId, $this->gitea))->show();
         $output->writeln(' OK');
 
-        $output->write('Update project in CompoLab...');
-        $this->repositoryManager->registerProject($project);
+        $output->write('Update repository in CompoLab...');
+        $this->repositoryManager->registerRepository($repository);
         $this->repositoryManager->save();
         $output->writeln(' OK');
 

@@ -10,18 +10,18 @@ final class UrlTest extends TestCase
     public function testBadUrl()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new Url('gitlab.my-website.com');
+        new Url('gitea.my-website.com');
     }
 
     public function testHttpUrl()
     {
-        $url = new Url('https://gitlab.my-website.com');
+        $url = new Url('https://gitea.my-website.com');
         self::assertRegExp('/^https:/', (string) $url);
     }
 
     public function testSshUrl()
     {
-        $url = new Url('git@gitlab.my-website.com:vendor/project.git');
+        $url = new Url('git@gitea.my-website.com:vendor/repository.git');
         self::assertRegExp('/^git.*git$/', (string) $url);
     }
 }

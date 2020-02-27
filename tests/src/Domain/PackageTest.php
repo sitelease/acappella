@@ -26,7 +26,7 @@ final class PackageTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         Package::buildFromArray(__DIR__ . '/../../cache', [
-            'name'    => 'vendor/project',
+            'name'    => 'vendor/repository',
             'version' => 'dev-master',
         ]);
     }
@@ -39,17 +39,17 @@ final class PackageTest extends TestCase
             'version'       => 'dev-master',
             'source'        => [
                 'type'      => 'git',
-                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'url'       => 'git@gitea.my-website.com:vendor/repository.git',
                 'reference' => '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
             ],
         ]));
 
-        $this->assertEquals('vendor/project', $package->getName());
+        $this->assertEquals('vendor/repository', $package->getName());
         $this->assertInstanceOf(Version::class, $package->getVersion());
 
         $packageArray = json_decode(json_encode($package), true);
 
-        $this->assertEquals('git@gitlab.my-website.com:vendor/project.git', $packageArray['source']['url']);
+        $this->assertEquals('git@gitea.my-website.com:vendor/repository.git', $packageArray['source']['url']);
 
         $this->assertArrayHasKey('name', $packageArray);
         $this->assertArrayHasKey('version', $packageArray);

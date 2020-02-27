@@ -2,18 +2,18 @@
 
 namespace CompoLab\Application\Http;
 
-use CompoLab\Application\GitlabRepositoryManager;
-use CompoLab\Application\Http\Controller\GitlabController;
-use Gitlab\Client as Gitlab;
+use CompoLab\Application\GiteaRepositoryManager;
+use CompoLab\Application\Http\Controller\GiteaController;
+use Gitea\Client as Gitea;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 final class Routing extends RouteCollection
 {
-    public function __construct(Gitlab $gitlab, GitlabRepositoryManager $repositoryManager)
+    public function __construct(Gitea $gitea, GiteaRepositoryManager $repositoryManager)
     {
-        $this->add('gitlab', new Route('/gitlab', [
-            '_controller' => [new GitlabController($gitlab, $repositoryManager), 'handle']
+        $this->add('gitea', new Route('/gitea', [
+            '_controller' => [new GiteaController($gitea, $repositoryManager), 'handle']
         ]));
     }
 }

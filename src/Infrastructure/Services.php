@@ -2,8 +2,8 @@
 
 namespace CompoLab\Infrastructure;
 
-use CompoLab\Application\GitlabRepositoryManager;
-use Gitlab\Client as Gitlab;
+use CompoLab\Application\GiteaRepositoryManager;
+use Gitea\Client as Gitea;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -12,8 +12,8 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  *
- * @property GitlabRepositoryManager $manager
- * @property Gitlab $gitlab
+ * @property GiteaRepositoryManager $manager
+ * @property Gitea $gitea
  */
 final class Services
 {
@@ -47,7 +47,7 @@ final class Services
             }
 
             require_once $cachePath;
-            $services = new \ProjectServiceContainer;
+            $services = new \RepositoryServiceContainer;
 
         } else {
             // ... otherwise compile & cache services

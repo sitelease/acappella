@@ -34,7 +34,7 @@ final class RepositoryTest extends TestCase
             'version'       => 'dev-feature',
             'source'        => [
                 'type'      => 'git',
-                'url'       => 'git@gitlab.my-website.com:vendor/project.git',
+                'url'       => 'git@gitea.my-website.com:vendor/repository.git',
                 'reference' => '8c7g1iu6249c789d4b6365c0d4c1205d36498i64',
             ],
         ]));

@@ -2,9 +2,9 @@
 
 namespace CompoLab\Application\Http;
 
-use CompoLab\Application\GitlabRepositoryManager;
+use CompoLab\Application\GiteaRepositoryManager;
 use CompoLab\Application\Http\Controller\ExceptionController;
-use Gitlab\Client as Gitlab;
+use Gitea\Client as Gitea;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
@@ -17,9 +17,9 @@ use Symfony\Component\Routing\RequestContext;
 
 final class Kernel extends HttpKernel
 {
-    public function __construct(Gitlab $gitlab, GitlabRepositoryManager $repositoryManager)
+    public function __construct(Gitea $gitea, GiteaRepositoryManager $repositoryManager)
     {
-        $matcher = new UrlMatcher(new Routing($gitlab, $repositoryManager), new RequestContext);
+        $matcher = new UrlMatcher(new Routing($gitea, $repositoryManager), new RequestContext);
 
         $dispatcher = new EventDispatcher;
         $dispatcher->addSubscriber(new ExceptionListener([ExceptionController::class, 'handle']));
