@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b26af8c2cfd97c298bdcb6295a4852f2",
+    "content-hash": "faa1d876c536aaff7940ff24a6b29385",
     "packages": [
         {
             "name": "cedx/enum",
@@ -604,8 +604,8 @@
             "version": "dev-master",
             "dist": {
                 "type": "path",
-                "url": "../gitea.php",
-                "reference": "0594dce6d0ffacb4f9bd386b34ed9d0ed78b93cd"
+                "url": "/home/benjamin/Web_Design/Server Technologies/gitea.php",
+                "reference": "239b6b47486bfe80b98234b2e63745aab8f9c61e"
             },
             "require": {
                 "cedx/enum": "^7.4.0",

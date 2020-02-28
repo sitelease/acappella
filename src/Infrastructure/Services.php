@@ -48,7 +48,7 @@ final class Services
             }
 
             require_once $cachePath;
-            $services = new \RepositoryServiceContainer;
+            $services = new \ProjectServiceContainer;
 
         } else {
             // ... otherwise compile & cache services

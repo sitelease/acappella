@@ -21,14 +21,5 @@
       "CompoLab\\": "src",
       "CompoLab\\Tests\\": "tests/src"
     }
-  },
-  "repositories": {
-    "local": {
-      "type": "path",
-      "url": "../gitea.php/",
-      "options": {
-        "symlink": true
-      }
-    }
   }
 }
