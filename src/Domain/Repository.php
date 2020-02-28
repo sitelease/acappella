@@ -119,10 +119,10 @@ final class Repository implements \Countable, \JsonSerializable
 
     public static function buildFromPath(Url $baseUrl, Dir $cachePath, string $path): self
     {
-        print("buildFromPath() called \n");
-        print("baseUrl -> $baseUrl \n");
-        print("cachePath -> $cachePath \n");
-        print("path -> $path \n");
+        // print("buildFromPath() called \n");
+        // print("baseUrl -> $baseUrl \n");
+        // print("cachePath -> $cachePath \n");
+        // print("path -> $path \n");
 
         if (!$json = file_get_contents($path)) {
             throw new CompoLabException(sprintf('File "%s" is not readable', $path));

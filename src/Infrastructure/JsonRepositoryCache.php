@@ -49,7 +49,7 @@ final class JsonRepositoryCache implements RepositoryCache
     public function refresh()
     {
         $jsonPath = $this->repository->getIndexFile();
-        print("\n Package JSON Path -> $jsonPath \n");
+        // print("\n Package JSON Path -> $jsonPath \n");
 
         if (!file_put_contents($jsonPath, json_encode($this->repository, $this->jsonOptions))) {
             throw new CompoLabException(sprintf('Impossible to save repository to %s', $jsonPath));

@@ -33,8 +33,6 @@ final class Package implements JsonConvertible
         ?Source $source,
         ?Dist $dist
     ){
-
-        print("Package Construct()");
         if (is_null($source) and is_null($dist)) {
             throw new CompoLabException(sprintf('Package "%s" must have at least a source or a dist', $name));
         }

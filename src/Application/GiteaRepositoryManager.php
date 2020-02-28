@@ -41,19 +41,19 @@ final class GiteaRepositoryManager
 
         $branches = $repository->branches();
         if ($branches) {
-            print("Processing branches for ".$repositoryName."\n");
+            // print("Processing branches for ".$repositoryName."\n");
             foreach ($branches as $branch) {
                 try {
-                    print("Processing ".$branch->getName()."\n");
+                    // print("Processing ".$branch->getName()."\n");
                     $this->registerBranch($branch);
 
                 } catch (\Exception $e) {
                     if ($e instanceof CompoLabException) {
-                        print("CompoLabException Detected");
+                        // print("CompoLabException Detected");
                         throw $e;
                     } else {
-                        print("Branch could not be processed \n");
-                        print("Error message -> ".$e->getMessage()."\n");
+                        // print("Branch could not be processed \n");
+                        // print("Error message -> ".$e->getMessage()."\n");
                         continue;
                     }
                 }
@@ -65,19 +65,19 @@ final class GiteaRepositoryManager
 
         $tags = $repository->tags();
         if ($tags) {
-            print("Processing tags for ".$repositoryName."\n");
+            // print("Processing tags for ".$repositoryName."\n");
             foreach ($tags as $tag) {
                 try {
-                    print("Processing ".$tag->getName()."\n");
+                    // print("Processing ".$tag->getName()."\n");
                     $this->registerTag($tag);
 
                 } catch (\Exception $e) {
                     if ($e instanceof CompoLabException) {
-                        print("CompoLabException Detected");
+                        // print("CompoLabException Detected");
                         throw $e;
                     } else {
-                        print("Branch could not be processed \n");
-                        print("Error message -> ".$e->getMessage()."\n");
+                        // print("Branch could not be processed \n");
+                        // print("Error message -> ".$e->getMessage()."\n");
                         continue;
                     }
                 }
@@ -87,7 +87,7 @@ final class GiteaRepositoryManager
 
     public function registerBranch(Branch $branch)
     {
-        print("registerBranch() -> ");
+        // print("registerBranch() -> ");
         $this->repositoryCache->addPackage(
             $this->getPackageFromBranch($branch)
         );
@@ -95,7 +95,7 @@ final class GiteaRepositoryManager
 
     public function registerTag(Tag $tag)
     {
-        print("registerTag() -> ");
+        // print("registerTag() -> ");
         $this->repositoryCache->addPackage(
             $this->getPackageFromTag($tag)
         );
@@ -142,7 +142,7 @@ final class GiteaRepositoryManager
     /** WIP */
     private function getPackageFromBranch(Branch $branch): Package
     {
-        print("getPackageFromBranch() -> ");
+        // print("getPackageFromBranch() -> ");
         $branchName = $branch->getName();
 
         $repository = $branch->searchRequestChain(Repository::class);
@@ -167,12 +167,12 @@ final class GiteaRepositoryManager
 
         $version = Version::buildFromString($branchName);
 
-        print("\n");
-        print("Composer Name -> ".$composerJson['name']."\n");
-        print("branchName -> $branchName"."\n");
-        print("commitSha -> $commitSha"."\n");
-        print("version -> $version"."\n");
-        print("\n");
+        // print("\n");
+        // print("Composer Name -> ".$composerJson['name']."\n");
+        // print("branchName -> $branchName"."\n");
+        // print("commitSha -> $commitSha"."\n");
+        // print("version -> $version"."\n");
+        // print("\n");
 
         return new Package(
             $composerJson['name'],
@@ -186,7 +186,7 @@ final class GiteaRepositoryManager
     /** TODO: Update */
     private function getPackageFromTag(Tag $tag): Package
     {
-        print("getPackageFromTag() -> ");
+        // print("getPackageFromTag() -> ");
         $tagName = $tag->getName();
 
 
@@ -210,12 +210,12 @@ final class GiteaRepositoryManager
 
         $version = Version::buildFromString($tagName);
 
-        print("\n");
-        print("Composer Name -> ".$composerJson['name']."\n");
-        print("tagName -> $tagName"."\n");
-        print("commitSha -> $commitSha"."\n");
-        print("version -> $version"."\n");
-        print("\n");
+        // print("\n");
+        // print("Composer Name -> ".$composerJson['name']."\n");
+        // print("tagName -> $tagName"."\n");
+        // print("commitSha -> $commitSha"."\n");
+        // print("version -> $version"."\n");
+        // print("\n");
 
         return new Package(
             $composerJson['name'],
@@ -228,7 +228,7 @@ final class GiteaRepositoryManager
 
     private function getSource(Repository $repository, string $commitSha): Source
     {
-        print("getSource() -> ");
+        // print("getSource() -> ");
         return new Source(
             new Git,
             new Url($repository->getSshUrl()),
@@ -238,7 +238,7 @@ final class GiteaRepositoryManager
 
     private function getDist(Repository $repository, string $name, Version $version, string $commitSha): Dist
     {
-        print("getDist() -> ");
+        // print("getDist() -> ");
         $archivePath = $this->getArchivePath($repository, $name, $version, $commitSha);
 
         return new Dist(
@@ -251,15 +251,15 @@ final class GiteaRepositoryManager
 
     private function getComposerJson(Repository $repository, string $gitRef): array
     {
-        print("getComposerJson() -> ");
-        print("\n");
+        // print("getComposerJson() -> ");
+        // print("\n");
         $client = $repository->getClient();
         $owner = $repository->getOwner();
-        print("\n");
-        print("Owner -> ".$owner->getUsername()."\n");
-        print("Name -> ".$repository->getName()."\n");
-        print("Ref -> ".$gitRef."\n");
-        print("\n");
+        // print("\n");
+        // print("Owner -> ".$owner->getUsername()."\n");
+        // print("Name -> ".$repository->getName()."\n");
+        // print("Ref -> ".$gitRef."\n");
+        // print("\n");
         $jsonString = $client->repositories()->getRawFile(
             $owner->getUsername(),
             $repository->getName(),
@@ -290,7 +290,7 @@ final class GiteaRepositoryManager
 
     private function getArchivePath(Repository $repository, string $name, Version $version, string $commitSha): string
     {
-        print("getArchivePath() -> ");
+        // print("getArchivePath() -> ");
         $archivePath = Dist::buildArchivePath($name, $version, new Reference($commitSha));
 
         try {
@@ -306,7 +306,7 @@ final class GiteaRepositoryManager
 
     private function createArchive(Repository $repository, string $path, string $commitSha)
     {
-        print("createArchive() -> ");
+        // print("createArchive() -> ");
         $path = sprintf('%s/%s',
             $this->repositoryCache->getRepository()->getCachePath(),
             ltrim($path, '/'));

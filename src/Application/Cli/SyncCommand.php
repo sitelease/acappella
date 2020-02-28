@@ -63,7 +63,7 @@ final class SyncCommand extends Command
         $progress->finish();
 
         $output->write('Persist JSON in cache...');
-        print("\n Count -> ".$this->repositoryManager->count());
+        // print("\n Count -> ".$this->repositoryManager->count());
         $this->repositoryManager->save();
         $output->writeln(' OK');
 
