@@ -12,6 +12,7 @@ use CompoLab\Domain\Type\Tar;
 use CompoLab\Domain\ValueObject\Reference;
 use CompoLab\Domain\ValueObject\Url;
 use CompoLab\Domain\ValueObject\Version;
+use CompoLab\Exception\CompoLabException;
 // use Gitea\Model\Commit;
 use Gitea\Model\Repository;
 use Gitea\Model\Branch;
@@ -47,11 +48,18 @@ final class GiteaRepositoryManager
                     $this->registerBranch($branch);
 
                 } catch (\Exception $e) {
-                    continue;
+                    if ($e instanceof CompoLabException) {
+                        print("CompoLabException Detected");
+                        throw $e;
+                    } else {
+                        print("Branch could not be processed \n");
+                        print("Error message -> ".$e->getMessage()."\n");
+                        continue;
+                    }
                 }
             }
         } else{
-            throw new \RuntimeException(sprintf('Impossible to get branches from repository "%s"',
+            throw new CompoLabException(sprintf('Impossible to get branches from repository "%s"',
                 $repositoryName));
         }
 
@@ -64,15 +72,22 @@ final class GiteaRepositoryManager
                     $this->registerTag($tag);
 
                 } catch (\Exception $e) {
-                    continue;
+                    if ($e instanceof CompoLabException) {
+                        print("CompoLabException Detected");
+                        throw $e;
+                    } else {
+                        print("Branch could not be processed \n");
+                        print("Error message -> ".$e->getMessage()."\n");
+                        continue;
+                    }
                 }
             }
         }
-        return true;
     }
 
     public function registerBranch(Branch $branch)
     {
+        print("registerBranch() -> ");
         $this->repositoryCache->addPackage(
             $this->getPackageFromBranch($branch)
         );
@@ -80,6 +95,7 @@ final class GiteaRepositoryManager
 
     public function registerTag(Tag $tag)
     {
+        print("registerTag() -> ");
         $this->repositoryCache->addPackage(
             $this->getPackageFromTag($tag)
         );
@@ -118,115 +134,190 @@ final class GiteaRepositoryManager
         $this->repositoryCache->refresh();
     }
 
-    /** TODO: Update */
+    public function count()
+    {
+        $this->repositoryCache->count();
+    }
+
+    /** WIP */
     private function getPackageFromBranch(Branch $branch): Package
     {
+        print("getPackageFromBranch() -> ");
         $branchName = $branch->getName();
 
-        $branch->searchRequestChain();
+        $repository = $branch->searchRequestChain(Repository::class);
 
-        $composerJson = $this->getComposerJson(
-            $branch->getClient(), $branchName
-        );
+        if (!$repository) {
+            throw new CompoLabException(sprintf('Impossible to get Repository object from branch request chain (branch: %s)',
+                $branchName
+            ));
+        }
+
+        $commit = $branch->getCommit();
+
+        if (!$commit) {
+            throw new CompoLabException(sprintf('Impossible to get Commit object from branch (branch: %s)',
+                $branchName
+            ));
+        }
+
+        $commitSha = $commit->getId();
+
+        $composerJson = $this->getComposerJson($repository, $branchName);
 
         $version = Version::buildFromString($branchName);
+
+        print("\n");
+        print("Composer Name -> ".$composerJson['name']."\n");
+        print("branchName -> $branchName"."\n");
+        print("commitSha -> $commitSha"."\n");
+        print("version -> $version"."\n");
+        print("\n");
 
         return new Package(
             $composerJson['name'],
             $version,
             new PackageConfiguration($composerJson),
-            $this->getSource($branch->repository, $branch->commit),
-            $this->getDist($composerJson['name'], $version, $branch->commit)
+            $this->getSource($repository, $commitSha),
+            $this->getDist($repository, $composerJson['name'], $version, $commitSha)
         );
     }
 
     /** TODO: Update */
     private function getPackageFromTag(Tag $tag): Package
     {
-        $composerJson = $this->getComposerJson($tag->commit);
+        print("getPackageFromTag() -> ");
+        $tagName = $tag->getName();
 
-        $version = Version::buildFromString($tag->name);
+
+        $repository = $tag->searchRequestChain(Repository::class);
+
+        if (!$repository) {
+            throw new CompoLabException(sprintf('Impossible to get Repository object from tag request chain (tag: %s)',
+                $tagName
+            ));
+        }
+
+        $commitSha = $tag->getCommitSha();
+
+        if (!$commitSha) {
+            throw new CompoLabException(sprintf('Impossible to get commit SHA from tag (tag: %s)',
+                $tagName
+            ));
+        }
+
+        $composerJson = $this->getComposerJson($repository, $tagName);
+
+        $version = Version::buildFromString($tagName);
+
+        print("\n");
+        print("Composer Name -> ".$composerJson['name']."\n");
+        print("tagName -> $tagName"."\n");
+        print("commitSha -> $commitSha"."\n");
+        print("version -> $version"."\n");
+        print("\n");
 
         return new Package(
             $composerJson['name'],
             $version,
             new PackageConfiguration($composerJson),
-            $this->getSource($tag->repository, $tag->commit),
-            $this->getDist($composerJson['name'], $version, $tag->commit)
+            $this->getSource($repository, $commitSha),
+            $this->getDist($repository, $composerJson['name'], $version, $commitSha)
         );
     }
 
-    /** TODO: Update */
-    private function getSource(Repository $repository, Commit $commit): Source
+    private function getSource(Repository $repository, string $commitSha): Source
     {
+        print("getSource() -> ");
         return new Source(
             new Git,
-            new Url($repository->ssh_url_to_repo),
-            new Reference($commit->id)
+            new Url($repository->getSshUrl()),
+            new Reference($commitSha)
         );
     }
 
-    /** TODO: Update */
-    private function getDist(string $name, Version $version, Commit $commit): Dist
+    private function getDist(Repository $repository, string $name, Version $version, string $commitSha): Dist
     {
-        $archivePath = $this->getArchivePath($name, $version, $commit);
+        print("getDist() -> ");
+        $archivePath = $this->getArchivePath($repository, $name, $version, $commitSha);
 
         return new Dist(
             new Tar,
             $this->repositoryCache->getRepository()->getUrl($archivePath),
-            new Reference($commit->id),
+            new Reference($commitSha),
             $this->repositoryCache->getRepository()->getFile($archivePath)
         );
     }
 
-    /** TODO: Update */
     private function getComposerJson(Repository $repository, string $gitRef): array
     {
+        print("getComposerJson() -> ");
+        print("\n");
+        $client = $repository->getClient();
+        $owner = $repository->getOwner();
+        print("\n");
+        print("Owner -> ".$owner->getUsername()."\n");
+        print("Name -> ".$repository->getName()."\n");
+        print("Ref -> ".$gitRef."\n");
+        print("\n");
         $jsonString = $client->repositories()->getRawFile(
-            $repository->getOwner(),
+            $owner->getUsername(),
             $repository->getName(),
-            $gitRef
+            "composer.json"
         );
-        // ->getRawFile($commit->repository->id, 'composer.json', $commit->id)
 
-        if (!$jsonArray = json_decode($jsonString, true)) {
-            throw new \RuntimeException(sprintf('Impossible to get composer.json from repository %d (ref: %s)',
-                $commit->repository->id,
-                $commit->id));
-        }
-
-        if (!in_array('name', array_keys($jsonArray))) {
-            throw new \RuntimeException(sprintf('Malformed composer.json from repository %d (ref: %s)',
-                $commit->repository->id,
-                $commit->id));
+        if ($jsonString && is_string($jsonString)) {
+            try {
+                $jsonArray = json_decode($jsonString, true);
+                if (!is_array($jsonArray) || !in_array('name', array_keys($jsonArray))) {
+                    throw new \RuntimeException;
+                }
+            } catch (\Exception $e) {
+                throw new \RuntimeException(sprintf('Malformed composer.json from repository %s (ref: %s)',
+                    $repository->getName(),
+                    $gitRef
+                ));
+            }
+        } else {
+            throw new \RuntimeException(sprintf('Impossible to get composer.json from repository %s (ref: %s)',
+                $repository->getName(),
+                $gitRef
+            ));
         }
 
         return $jsonArray;
     }
 
-    /** TODO: Update */
-    private function getArchivePath(string $name, Version $version, Commit $commit): string
+    private function getArchivePath(Repository $repository, string $name, Version $version, string $commitSha): string
     {
-        $archivePath = Dist::buildArchivePath($name, $version, new Reference($commit->id));
+        print("getArchivePath() -> ");
+        $archivePath = Dist::buildArchivePath($name, $version, new Reference($commitSha));
 
         try {
             // This will check if the archive path exists and is a file
             $this->repositoryCache->getRepository()->getFile($archivePath);
 
         } catch (\Exception $e) {
-            $this->createArchive($archivePath, $commit);
+            $this->createArchive($repository, $archivePath, $commitSha);
         }
 
         return $archivePath;
     }
 
-    /** TODO: Update */
-    private function createArchive(string $path, Commit $commit)
+    private function createArchive(Repository $repository, string $path, string $commitSha)
     {
+        print("createArchive() -> ");
         $path = sprintf('%s/%s',
             $this->repositoryCache->getRepository()->getCachePath(),
             ltrim($path, '/'));
 
+            $archive = $repository->archive($commitSha);
+
+            if (!$archive) {
+                throw new CompoLabException(sprintf('Impossible to get archive from repository %s for commit %s',
+                $repository->getName(),
+                $commitSha));
+            }
         try {
             if (!is_dir($dir = pathinfo($path, PATHINFO_DIRNAME))) {
                 mkdir($dir, 0755, true);
@@ -234,14 +325,11 @@ final class GiteaRepositoryManager
 
             file_put_contents(
                 $path,
-                $commit->getClient()->repositories()->archive(
-                    $commit->repository->id,
-                    ['sha' => $commit->id]
-                )
+                $archive
             );
 
         } catch (\Exception $e) {
-            throw new \RuntimeException(sprintf('Impossible to put content to %s (%s)', $path, $e->getMessage()));
+            throw new CompoLabException(sprintf('Impossible to put content to %s (%s)', $path, $e->getMessage()));
         }
     }
 }

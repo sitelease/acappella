@@ -23,7 +23,7 @@ final class PackageTest extends TestCase
 
     public function testBuildFromArrayWithoutAsset()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(CompoLabException::class);
 
         Package::buildFromArray(__DIR__ . '/../../cache', [
             'name'    => 'vendor/repository',

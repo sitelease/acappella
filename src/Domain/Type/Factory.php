@@ -2,6 +2,8 @@
 
 namespace CompoLab\Domain\Type;
 
+use CompoLab\Exception\CompoLabException;
+
 final class Factory
 {
     public static function buildFromString(string $string): Type
@@ -14,6 +16,6 @@ final class Factory
             return new Tar;
         }
 
-        throw new \RuntimeException(sprintf('Impossible to create a type from string "%s"', $string));
+        throw new CompoLabException(sprintf('Impossible to create a type from string "%s"', $string));
     }
 }

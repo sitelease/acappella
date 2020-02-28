@@ -5,6 +5,7 @@ namespace CompoLab\Infrastructure;
 use CompoLab\Domain\Package;
 use CompoLab\Domain\Repository;
 use CompoLab\Domain\RepositoryCache;
+use CompoLab\Exception\CompoLabException;
 
 final class JsonRepositoryCache implements RepositoryCache
 {
@@ -48,9 +49,10 @@ final class JsonRepositoryCache implements RepositoryCache
     public function refresh()
     {
         $jsonPath = $this->repository->getIndexFile();
+        print("\n Package JSON Path -> $jsonPath \n");
 
         if (!file_put_contents($jsonPath, json_encode($this->repository, $this->jsonOptions))) {
-            throw new \RuntimeException(sprintf('Impossible to save repository to %s', $jsonPath));
+            throw new CompoLabException(sprintf('Impossible to save repository to %s', $jsonPath));
         }
     }
 

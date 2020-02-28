@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use CompoLab\Exception\CompoLabException;
 
 /**
  *
@@ -43,7 +44,7 @@ final class Services
         if ($cacheEnabled and file_exists($cachePath)) {
             // If cache exists, use it...
             if (!is_readable($cachePath)) {
-                throw new \RuntimeException(sprintf('Services cache "%s" is not readable', $cachePath));
+                throw new CompoLabException(sprintf('Services cache "%s" is not readable', $cachePath));
             }
 
             require_once $cachePath;

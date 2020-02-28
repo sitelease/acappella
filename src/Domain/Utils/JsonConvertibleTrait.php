@@ -2,6 +2,8 @@
 
 namespace CompoLab\Domain\Utils;
 
+use CompoLab\Exception\CompoLabException;
+
 trait JsonConvertibleTrait
 {
     /** @var array */
@@ -26,18 +28,18 @@ trait JsonConvertibleTrait
     public function offsetGet($offset)
     {
         if (!isset($this->$offset)) {
-            throw new \RuntimeException(sprintf('There is no "%s" property on object %s', $offset, get_class($this)));
+            throw new CompoLabException(sprintf('There is no "%s" property on object %s', $offset, get_class($this)));
         }
     }
 
     public function offsetSet(/** @scrutinizer ignore-unused */ $offset, /** @scrutinizer ignore-unused */ $value)
     {
-        throw new \RuntimeException('Array access is read-only');
+        throw new CompoLabException('Array access is read-only');
     }
 
     public function offsetUnset(/** @scrutinizer ignore-unused */ $offset)
     {
-        throw new \RuntimeException('Array access is read-only');
+        throw new CompoLabException('Array access is read-only');
     }
 
     public function getIterator()

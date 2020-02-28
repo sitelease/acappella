@@ -5,6 +5,7 @@ namespace CompoLab\Domain;
 use CompoLab\Domain\Utils\JsonConvertible;
 use CompoLab\Domain\Utils\JsonConvertibleTrait;
 use CompoLab\Domain\ValueObject\Version;
+use CompoLab\Exception\CompoLabException;
 
 final class Package implements JsonConvertible
 {
@@ -32,8 +33,10 @@ final class Package implements JsonConvertible
         ?Source $source,
         ?Dist $dist
     ){
+
+        print("Package Construct()");
         if (is_null($source) and is_null($dist)) {
-            throw new \RuntimeException(sprintf('Package "%s" must have at least a source or a dist', $name));
+            throw new CompoLabException(sprintf('Package "%s" must have at least a source or a dist', $name));
         }
 
         $this->name = $name;

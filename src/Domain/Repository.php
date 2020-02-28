@@ -5,6 +5,7 @@ namespace CompoLab\Domain;
 use CompoLab\Domain\ValueObject\Dir;
 use CompoLab\Domain\ValueObject\File;
 use CompoLab\Domain\ValueObject\Url;
+use CompoLab\Exception\CompoLabException;
 
 final class Repository implements \Countable, \JsonSerializable
 {
@@ -118,8 +119,13 @@ final class Repository implements \Countable, \JsonSerializable
 
     public static function buildFromPath(Url $baseUrl, Dir $cachePath, string $path): self
     {
+        print("buildFromPath() called \n");
+        print("baseUrl -> $baseUrl \n");
+        print("cachePath -> $cachePath \n");
+        print("path -> $path \n");
+
         if (!$json = file_get_contents($path)) {
-            throw new \RuntimeException(sprintf('File "%s" is not readable', $path));
+            throw new CompoLabException(sprintf('File "%s" is not readable', $path));
         }
 
         return self::buildFromJson($baseUrl, $cachePath, $json);
@@ -128,11 +134,11 @@ final class Repository implements \Countable, \JsonSerializable
     public static function buildFromJson(Url $baseUrl, Dir $cachePath, string $json): self
     {
         if (!$data = json_decode($json, true)) {
-            throw new \RuntimeException('Impossible to decode JSON string as array');
+            throw new CompoLabException('Impossible to decode JSON string as array');
         }
 
         if (!isset($data['packages'])) {
-            throw new \RuntimeException('Malformed JSON');
+            throw new CompoLabException('Malformed JSON');
         }
 
         $repository = new self($baseUrl, $cachePath);

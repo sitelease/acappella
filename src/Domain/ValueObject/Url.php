@@ -19,7 +19,7 @@ final class Url
     private function validateUrl(string $url): bool
     {
         // Validate SSH URLs
-        if (preg_match('/^git@[-a-z0-9\.]+:[\w-]+\/[\w-]+\.git$/', $url)) {
+        if (preg_match('/^(gitea|git)@[-a-z0-9\.]+:[\w-]+\/[\w-]+\.git$/', $url)) {
             return true;
         }
 
