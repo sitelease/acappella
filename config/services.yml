@@ -6,7 +6,9 @@ services:
     public:       true
     class:        Gitea\Client
     factory:      Gitea\Client::create
-    arguments:    ['%gitea.url%', '%gitea.token%', '%gitea.pushEventSecret%']
+    arguments:    ['%gitea.url%', '%gitea.token%']
+    calls:
+      - [setPushEventSecret, ['%gitea.pushEventSecret%']]
 
   baseUrl:
     class:        CompoLab\Domain\ValueObject\Url
