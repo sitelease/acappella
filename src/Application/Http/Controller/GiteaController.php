@@ -4,7 +4,7 @@ namespace CompoLab\Application\Http\Controller;
 
 use CompoLab\Application\GiteaRepositoryManager;
 use Gitea\Client as Gitea;
-use Gitea\Model\Repository;
+use Gitea\PushEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,48 +26,81 @@ final class GiteaController
 
     public function handle(Request $request): Response
     {
-        $event = json_decode($request->getContent(), true);
+        $client = $this->getClient();
+        $secret = $client->getPushEventSecret();
+        $requestServer = $request->server->all();
+        $requestBody = $request->getContent();
 
-        if (!isset($event['repository_id'])) {
-            throw new BadRequestHttpException('Missing repository_id from body');
-        }
 
-        if (!isset($event['event_name'])) {
-            throw new BadRequestHttpException('Missing event_name from body');
-        }
+        $validRequest = $event::validateRequest($requestServer, $requestBody, $secret);
 
-        if (!isset($event['repository_id']) or !$repository = Repository::fromArray(
-            $this->gitea,
-            $this->gitea->repositories()->show($event['repository_id']))
-        ){
-            throw new BadRequestHttpException('Impossible te retrieve a Gitea repository from the request');
-        }
+        if ($validRequest) {
+            $event = PushEvent::fromJson(
+                $client,
+                $client,
+                json_decode($requestBody)
+            );
 
-        switch ($event['event_name']) {
-            case 'repository_destroy':
-                $this->repositoryManager->deleteRepository($repository);
-                break;
+            $repository = $event->getRepository();
 
-            case 'push':
-            case 'tag_push':
-                $this->repositoryManager->registerRepository($repository);
-                break;
+            if (!$repository) {
+                throw new BadRequestHttpException('No repository data found in the body');
+            }
 
-            default: return new JsonResponse([
+            if (!$repository->getId()) {
+                throw new BadRequestHttpException('No repository id found in the body');
+            }
+
+            if (!$repository->getFullName()) {
+                throw new BadRequestHttpException('No repository full_name found in the body');
+            }
+
+            // $repositoryObj = Repository::fromArray(
+            //     $client,
+            //     $client->repositories()->getByName($repository->getFullName())
+            // );
+            // if (!$repositoryObj){
+            //     throw new BadRequestHttpException('Impossible to retrieve a Gitea repository from the request');
+            // }
+
+            // switch ($event['event_name']) {
+            //     case 'repository_destroy':
+            //         $this->repositoryManager->deleteRepository($repository);
+            //         break;
+
+            //     case 'push':
+            //     case 'tag_push':
+            //         $this->repositoryManager->registerRepository($repository);
+            //         break;
+
+            //     default: return new JsonResponse([
+            //         'status' => 200,
+            //         'message' => 'CompoLab has NOT handled the Gitea event',
+            //         'repository_id' => $event['repository_id'],
+            //         'event_name' => $event['event_name'],
+            //     ]);
+            // }
+
+            $this->repositoryManager->registerRepository($repository);
+            $this->repositoryManager->save();
+
+            return new JsonResponse([
                 'status' => 200,
-                'message' => 'CompoLab has NOT handled the Gitea event',
-                'repository_id' => $event['repository_id'],
-                'event_name' => $event['event_name'],
+                'message' => 'CompoLab has successfully handled the Gitea event',
+                'repository_id' => $repository->getId(),
+                'event_name' => $repository->getFullName(),
             ]);
         }
+    }
 
-        $this->repositoryManager->save();
+    public function getClient()
+    {
+        return $this->gitea;
+    }
 
-        return new JsonResponse([
-            'status' => 200,
-            'message' => 'CompoLab has successfully handled the Gitea event',
-            'repository_id' => $event['repository_id'],
-            'event_name' => $event['event_name'],
-        ]);
+    public function setClient(object $object): self
+    {
+        $this->gitea = $object;
+        return $this;
     }
 }
