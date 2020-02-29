@@ -31,8 +31,7 @@ final class GiteaController
         $requestServer = $request->server->all();
         $requestBody = $request->getContent();
 
-
-        $validRequest = $event::validateRequest($requestServer, $requestBody, $secret);
+        $validRequest = PushEvent::validateRequest($requestServer, $requestBody, $secret);
 
         if ($validRequest) {
             $event = PushEvent::fromJson(
