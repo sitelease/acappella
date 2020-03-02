@@ -1,6 +1,6 @@
 <?php
 
-namespace CompoLab\Application\Http\Controller;
+namespace Acappella\Application\Http\Controller;
 
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\JsonResponse;

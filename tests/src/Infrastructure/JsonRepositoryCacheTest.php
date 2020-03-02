@@ -1,12 +1,12 @@
 <?php
 
-namespace CompoLab\Tests\Infrastructure;
+namespace Acappella\Tests\Infrastructure;
 
-use CompoLab\Domain\Package;
-use CompoLab\Domain\Repository;
-use CompoLab\Domain\ValueObject\Dir;
-use CompoLab\Domain\ValueObject\Url;
-use CompoLab\Infrastructure\JsonRepositoryCache;
+use Acappella\Domain\Package;
+use Acappella\Domain\Repository;
+use Acappella\Domain\ValueObject\Dir;
+use Acappella\Domain\ValueObject\Url;
+use Acappella\Infrastructure\JsonRepositoryCache;
 use PHPUnit\Framework\TestCase;
 
 final class JsonRepositoryCacheTest extends TestCase

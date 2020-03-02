@@ -1,11 +1,11 @@
 <?php
 
-namespace CompoLab\Domain;
+namespace Acappella\Domain;
 
-use CompoLab\Domain\Utils\JsonConvertible;
-use CompoLab\Domain\Utils\JsonConvertibleTrait;
-use CompoLab\Domain\ValueObject\Version;
-use CompoLab\Exception\CompoLabException;
+use Acappella\Domain\Utils\JsonConvertible;
+use Acappella\Domain\Utils\JsonConvertibleTrait;
+use Acappella\Domain\ValueObject\Version;
+use Acappella\Exception\AcappellaException;
 
 final class Package implements JsonConvertible
 {
@@ -34,7 +34,7 @@ final class Package implements JsonConvertible
         ?Dist $dist
     ){
         if (is_null($source) and is_null($dist)) {
-            throw new CompoLabException(sprintf('Package "%s" must have at least a source or a dist', $name));
+            throw new AcappellaException(sprintf('Package "%s" must have at least a source or a dist', $name));
         }
 
         $this->name = $name;

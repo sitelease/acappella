@@ -1,9 +1,9 @@
 <?php
 
-namespace CompoLab\Application\Http;
+namespace Acappella\Application\Http;
 
-use CompoLab\Application\GiteaRepositoryManager;
-use CompoLab\Application\Http\Controller\GiteaController;
+use Acappella\Application\GiteaRepositoryManager;
+use Acappella\Application\Http\Controller\GiteaController;
 use Gitea\Client as Gitea;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;

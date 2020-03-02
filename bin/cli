@@ -6,18 +6,18 @@ umask(0);
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
-use CompoLab\Application\Cli\SyncCommand;
-use CompoLab\Application\Cli\UpdateCommand;
-use CompoLab\Infrastructure\Services;
+use Acappella\Application\Cli\SyncCommand;
+use Acappella\Application\Cli\UpdateCommand;
+use Acappella\Infrastructure\Services;
 
 //try {
     $services = Services::getInstance(false);
 
-    $app = new Application('CompoLab', 'v1.0');
+    $app = new Application('Acappella', 'v1.0');
     $app->add(new SyncCommand($services->gitea, $services->manager));
     $app->add(new UpdateCommand($services->gitea, $services->manager));
     $app->run();
 
 //} catch (\Exception $e) {
-//    echo "An error occured.\nTry the `php bin/install` command if CompoLab has not yet been configured.\n";
+//    echo "An error occured.\nTry the `php bin/install` command if Acappella has not yet been configured.\n";
 //}

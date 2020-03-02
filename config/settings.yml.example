@@ -1,6 +1,6 @@
 parameters:
     composer.url: 'https://composer.my-website.com'
-    composer.dir: '/path/to/CompoLab/public'
+    composer.dir: '/path/to/Acappella/public'
     gitea.url: 'https://gitea.my-website.com'
     gitea.token: XXXXXXXXXXXXXXXXXXXX
     gitea.pushEventSecret: XXXXXXXXXXXXXXXXXXXX

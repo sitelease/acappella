@@ -1,13 +1,13 @@
 <?php
 
-namespace CompoLab\Tests\Domain;
+namespace Acappella\Tests\Domain;
 
-use CompoLab\Domain\Dist;
-use CompoLab\Domain\Repository;
-use CompoLab\Domain\ValueObject\Dir;
-use CompoLab\Domain\ValueObject\Reference;
-use CompoLab\Domain\ValueObject\Url;
-use CompoLab\Domain\ValueObject\Version;
+use Acappella\Domain\Dist;
+use Acappella\Domain\Repository;
+use Acappella\Domain\ValueObject\Dir;
+use Acappella\Domain\ValueObject\Reference;
+use Acappella\Domain\ValueObject\Url;
+use Acappella\Domain\ValueObject\Version;
 use PHPUnit\Framework\TestCase;
 
 final class DistTest extends TestCase

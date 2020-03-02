@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Domain;
+namespace Acappella\Domain;
 
-use CompoLab\Exception\CompoLabException;
+use Acappella\Exception\AcappellaException;
 
 /**
  *
@@ -23,7 +23,7 @@ final class PackageConfiguration
         $keys = array_keys($data);
 
         if (!in_array('name', $keys)) {
-            throw new CompoLabException('Malformed package configuration');
+            throw new AcappellaException('Malformed package configuration');
         }
 
         $this->data = $data;
@@ -32,7 +32,7 @@ final class PackageConfiguration
     public static function buildFromPath(string $path): self
     {
         if (!$json = file_get_contents($path)) {
-            throw new CompoLabException(sprintf('File "%s" is not readable'));
+            throw new AcappellaException(sprintf('File "%s" is not readable'));
         }
 
         return self::buildFromJson($json);
@@ -41,7 +41,7 @@ final class PackageConfiguration
     public static function buildFromJson(string $json): self
     {
         if (!$data = json_decode($json, true)) {
-            throw new CompoLabException('Impossible to decode JSON string as array');
+            throw new AcappellaException('Impossible to decode JSON string as array');
         }
 
         return new self($data);
@@ -62,7 +62,7 @@ final class PackageConfiguration
         $name = str_replace('-', '_', $name);
 
         if (!isset($this->data[$name])) {
-            throw new CompoLabException(sprintf('The is no "%s" property in composer.json'));
+            throw new AcappellaException(sprintf('The is no "%s" property in composer.json'));
         }
 
         return $this->data[$name];

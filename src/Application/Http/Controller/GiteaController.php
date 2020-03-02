@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Application\Http\Controller;
+namespace Acappella\Application\Http\Controller;
 
-use CompoLab\Application\GiteaRepositoryManager;
+use Acappella\Application\GiteaRepositoryManager;
 use Gitea\Client as Gitea;
 use Gitea\PushEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -74,7 +74,7 @@ final class GiteaController
 
             //     default: return new JsonResponse([
             //         'status' => 200,
-            //         'message' => 'CompoLab has NOT handled the Gitea event',
+            //         'message' => 'Acappella has NOT handled the Gitea event',
             //         'repository_id' => $event['repository_id'],
             //         'event_name' => $event['event_name'],
             //     ]);
@@ -85,7 +85,7 @@ final class GiteaController
 
             return new JsonResponse([
                 'status' => 200,
-                'message' => 'CompoLab has successfully handled the Gitea event',
+                'message' => 'Acappella has successfully handled the Gitea event',
                 'repository_id' => $repository->getId(),
                 'event_name' => $repository->getFullName(),
             ]);

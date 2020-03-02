@@ -1,14 +1,14 @@
 <?php
 
-namespace CompoLab\Domain;
+namespace Acappella\Domain;
 
-use CompoLab\Domain\Type\Factory;
-use CompoLab\Domain\Type\Git;
-use CompoLab\Domain\Type\Type;
-use CompoLab\Domain\Utils\JsonConvertible;
-use CompoLab\Domain\Utils\JsonConvertibleTrait;
-use CompoLab\Domain\ValueObject\Reference;
-use CompoLab\Domain\ValueObject\Url;
+use Acappella\Domain\Type\Factory;
+use Acappella\Domain\Type\Git;
+use Acappella\Domain\Type\Type;
+use Acappella\Domain\Utils\JsonConvertible;
+use Acappella\Domain\Utils\JsonConvertibleTrait;
+use Acappella\Domain\ValueObject\Reference;
+use Acappella\Domain\ValueObject\Url;
 
 final class Source implements JsonConvertible
 {

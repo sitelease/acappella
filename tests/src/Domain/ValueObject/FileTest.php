@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Tests\Domain\ValueObject;
+namespace Acappella\Tests\Domain\ValueObject;
 
-use CompoLab\Domain\ValueObject\File;
+use Acappella\Domain\ValueObject\File;
 use PHPUnit\Framework\TestCase;
 
 final class FileTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace CompoLab\Domain\Utils;
+namespace Acappella\Domain\Utils;
 
 interface JsonConvertible extends \ArrayAccess, \IteratorAggregate, \JsonSerializable
 {

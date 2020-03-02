@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Domain\Type;
+namespace Acappella\Domain\Type;
 
-use CompoLab\Exception\CompoLabException;
+use Acappella\Exception\AcappellaException;
 
 final class Factory
 {
@@ -16,6 +16,6 @@ final class Factory
             return new Tar;
         }
 
-        throw new CompoLabException(sprintf('Impossible to create a type from string "%s"', $string));
+        throw new AcappellaException(sprintf('Impossible to create a type from string "%s"', $string));
     }
 }

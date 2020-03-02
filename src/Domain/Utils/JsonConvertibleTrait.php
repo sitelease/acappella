@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Domain\Utils;
+namespace Acappella\Domain\Utils;
 
-use CompoLab\Exception\CompoLabException;
+use Acappella\Exception\AcappellaException;
 
 trait JsonConvertibleTrait
 {
@@ -28,18 +28,18 @@ trait JsonConvertibleTrait
     public function offsetGet($offset)
     {
         if (!isset($this->$offset)) {
-            throw new CompoLabException(sprintf('There is no "%s" property on object %s', $offset, get_class($this)));
+            throw new AcappellaException(sprintf('There is no "%s" property on object %s', $offset, get_class($this)));
         }
     }
 
     public function offsetSet(/** @scrutinizer ignore-unused */ $offset, /** @scrutinizer ignore-unused */ $value)
     {
-        throw new CompoLabException('Array access is read-only');
+        throw new AcappellaException('Array access is read-only');
     }
 
     public function offsetUnset(/** @scrutinizer ignore-unused */ $offset)
     {
-        throw new CompoLabException('Array access is read-only');
+        throw new AcappellaException('Array access is read-only');
     }
 
     public function getIterator()

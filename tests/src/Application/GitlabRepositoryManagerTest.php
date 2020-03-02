@@ -1,13 +1,13 @@
 <?php
 
-namespace CompoLab\Tests\Application;
+namespace Acappella\Tests\Application;
 
-use CompoLab\Application\GiteaRepositoryManager;
-use CompoLab\Domain\Repository;
-use CompoLab\Domain\ValueObject\Dir;
-use CompoLab\Domain\ValueObject\Url;
-use CompoLab\Infrastructure\JsonRepositoryCache;
-use CompoLab\Tests\Utils\DummyHttpClient;
+use Acappella\Application\GiteaRepositoryManager;
+use Acappella\Domain\Repository;
+use Acappella\Domain\ValueObject\Dir;
+use Acappella\Domain\ValueObject\Url;
+use Acappella\Infrastructure\JsonRepositoryCache;
+use Acappella\Tests\Utils\DummyHttpClient;
 use Gitea\Client;
 use Gitea\HttpClient\Builder;
 use Gitea\Model\Branch;

@@ -1,17 +1,17 @@
 <?php
 
-namespace CompoLab\Domain;
+namespace Acappella\Domain;
 
-use CompoLab\Domain\Type\Factory;
-use CompoLab\Domain\Type\Tar;
-use CompoLab\Domain\Type\Type;
-use CompoLab\Domain\Utils\JsonConvertible;
-use CompoLab\Domain\Utils\JsonConvertibleTrait;
-use CompoLab\Domain\ValueObject\File;
-use CompoLab\Domain\ValueObject\Reference;
-use CompoLab\Domain\ValueObject\Url;
-use CompoLab\Domain\ValueObject\Version;
-use CompoLab\Exception\CompoLabException;
+use Acappella\Domain\Type\Factory;
+use Acappella\Domain\Type\Tar;
+use Acappella\Domain\Type\Type;
+use Acappella\Domain\Utils\JsonConvertible;
+use Acappella\Domain\Utils\JsonConvertibleTrait;
+use Acappella\Domain\ValueObject\File;
+use Acappella\Domain\ValueObject\Reference;
+use Acappella\Domain\ValueObject\Url;
+use Acappella\Domain\ValueObject\Version;
+use Acappella\Exception\AcappellaException;
 
 final class Dist implements JsonConvertible
 {
@@ -43,7 +43,7 @@ final class Dist implements JsonConvertible
         $this->shasum = $shasum;
 
         if (is_null($shasum) and !$shasum = sha1_file((string) $localPath)) {
-            throw new CompoLabException(sprintf('Impossible to compute SHA checksum on file %s', $localPath));
+            throw new AcappellaException(sprintf('Impossible to compute SHA checksum on file %s', $localPath));
         }
         $this->shasum = $shasum;
 

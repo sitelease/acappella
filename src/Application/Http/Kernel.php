@@ -1,9 +1,9 @@
 <?php
 
-namespace CompoLab\Application\Http;
+namespace Acappella\Application\Http;
 
-use CompoLab\Application\GiteaRepositoryManager;
-use CompoLab\Application\Http\Controller\ExceptionController;
+use Acappella\Application\GiteaRepositoryManager;
+use Acappella\Application\Http\Controller\ExceptionController;
 use Gitea\Client as Gitea;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;

@@ -11,23 +11,23 @@ services:
       - [setPushEventSecret, ['%gitea.pushEventSecret%']]
 
   baseUrl:
-    class:        CompoLab\Domain\ValueObject\Url
+    class:        Acappella\Domain\ValueObject\Url
     arguments:    ['%composer.url%']
 
   cacheDir:
-    class:        CompoLab\Domain\ValueObject\Dir
+    class:        Acappella\Domain\ValueObject\Dir
     arguments:    ['%composer.dir%']
 
   repository:
-    class:        CompoLab\Domain\Repository
-    factory:      CompoLab\Domain\Repository::buildFromPath
+    class:        Acappella\Domain\Repository
+    factory:      Acappella\Domain\Repository::buildFromPath
     arguments:    ['@baseUrl', '@cacheDir', '%composer.dir%/packages.json']
 
   cache:
-    class:        CompoLab\Infrastructure\JsonRepositoryCache
+    class:        Acappella\Infrastructure\JsonRepositoryCache
     arguments:    ['@repository', 0]
 
   manager:
     public:       true
-    class:        CompoLab\Application\GiteaRepositoryManager
+    class:        Acappella\Application\GiteaRepositoryManager
     arguments:    ['@cache']

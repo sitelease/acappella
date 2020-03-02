@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Tests\Domain;
+namespace Acappella\Tests\Domain;
 
-use CompoLab\Domain\Source;
+use Acappella\Domain\Source;
 use PHPUnit\Framework\TestCase;
 
 final class SourceTest extends TestCase

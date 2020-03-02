@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Tests\Domain\ValueObject;
+namespace Acappella\Tests\Domain\ValueObject;
 
-use CompoLab\Domain\ValueObject\Dir;
+use Acappella\Domain\ValueObject\Dir;
 use PHPUnit\Framework\TestCase;
 
 final class DirTest extends TestCase

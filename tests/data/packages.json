@@ -20,8 +20,8 @@
         },
         "autoload": {
           "psr-4": {
-            "CompoLab\\": "src",
-            "CompoLab\\Tests\\": "tests/src"
+            "Acappella\\": "src",
+            "Acappella\\Tests\\": "tests/src"
           }
         },
         "source": {
@@ -55,8 +55,8 @@
         },
         "autoload": {
           "psr-4": {
-            "CompoLab\\": "src",
-            "CompoLab\\Tests\\": "tests/src"
+            "Acappella\\": "src",
+            "Acappella\\Tests\\": "tests/src"
           }
         },
         "source": {
@@ -90,8 +90,8 @@
         },
         "autoload": {
           "psr-4": {
-            "CompoLab\\": "src",
-            "CompoLab\\Tests\\": "tests/src"
+            "Acappella\\": "src",
+            "Acappella\\Tests\\": "tests/src"
           }
         },
         "source": {

@@ -1,5 +1,5 @@
 {
-  "name": "bricev/compolab",
+  "name": "sitelease/acappella",
   "description": "Composer Repository for Gitea",
   "license": "proprietary",
   "require": {
@@ -18,8 +18,8 @@
   },
   "autoload": {
     "psr-4": {
-      "CompoLab\\": "src",
-      "CompoLab\\Tests\\": "tests/src"
+      "Acappella\\": "src",
+      "Acappella\\Tests\\": "tests/src"
     }
   }
 }

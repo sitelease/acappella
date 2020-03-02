@@ -1,11 +1,11 @@
 <?php
 
-namespace CompoLab\Infrastructure;
+namespace Acappella\Infrastructure;
 
-use CompoLab\Domain\Package;
-use CompoLab\Domain\Repository;
-use CompoLab\Domain\RepositoryCache;
-use CompoLab\Exception\CompoLabException;
+use Acappella\Domain\Package;
+use Acappella\Domain\Repository;
+use Acappella\Domain\RepositoryCache;
+use Acappella\Exception\AcappellaException;
 
 final class JsonRepositoryCache implements RepositoryCache
 {
@@ -52,7 +52,7 @@ final class JsonRepositoryCache implements RepositoryCache
         // print("\n Package JSON Path -> $jsonPath \n");
 
         if (!file_put_contents($jsonPath, json_encode($this->repository, $this->jsonOptions))) {
-            throw new CompoLabException(sprintf('Impossible to save repository to %s', $jsonPath));
+            throw new AcappellaException(sprintf('Impossible to save repository to %s', $jsonPath));
         }
     }
 

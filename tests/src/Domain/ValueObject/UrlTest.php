@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Tests\Domain\ValueObject;
+namespace Acappella\Tests\Domain\ValueObject;
 
-use CompoLab\Domain\ValueObject\Url;
+use Acappella\Domain\ValueObject\Url;
 use PHPUnit\Framework\TestCase;
 
 final class UrlTest extends TestCase

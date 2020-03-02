@@ -1,6 +1,6 @@
 <?php
 
-namespace CompoLab\Application\Cli;
+namespace Acappella\Application\Cli;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ final class InstallCommand extends Command
     {
         $this
             ->setName('install')
-            ->setDescription('Install and configure CompoLab')
+            ->setDescription('Install and configure Acappella')
             ->setHelp('This command help to create a valid configuration, store it into the config/settings.yml file and create the empty public/packages.json file.')
             ->addOption('reset', 'r', InputOption::VALUE_NONE, 'Erase existing package index or archives')
         ;
@@ -49,7 +49,7 @@ final class InstallCommand extends Command
         }
 
         $composerURL = $helper->ask($input, $output, (new Question(
-            'Enter the CompoLab server URL (eg. https://composer.my-website.com): '
+            'Enter the Acappella server URL (eg. https://composer.my-website.com): '
         ))->setNormalizer(function ($value) {
             return trim((string) $value);
         })->setValidator(function ($value) {
@@ -60,7 +60,7 @@ final class InstallCommand extends Command
         }));
 
         $composerPublicDirPath = $helper->ask($input, $output, (new Question(
-            'Enter the path to CompoLab `public` directory (leave empty to auto configure): ',
+            'Enter the path to Acappella `public` directory (leave empty to auto configure): ',
             sprintf('%s/public', $root)
         ))->setNormalizer(function ($value) {
             return trim((string) $value);

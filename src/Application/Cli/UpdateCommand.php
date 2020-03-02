@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Application\Cli;
+namespace Acappella\Application\Cli;
 
-use CompoLab\Application\GiteaRepositoryManager;
+use Acappella\Application\GiteaRepositoryManager;
 use Gitea\Client as Gitea;
 use Gitea\Model\Repository;
 use Symfony\Component\Console\Command\Command;
@@ -30,7 +30,7 @@ final class UpdateCommand extends Command
     {
         $this
             ->setName('update')
-            ->setDescription('Update a Gitea repository in CompoLab')
+            ->setDescription('Update a Gitea repository in Acappella')
             ->setHelp('This command will update a specific repository (tags and branches) in the packages.json file, and download associated package archives into the web-accessible cache directory.')
             ->addArgument('repository', InputArgument::REQUIRED, 'Repository ID (can be found from Gitea in repository settings')
         ;
@@ -43,7 +43,7 @@ final class UpdateCommand extends Command
         $repository = (new Repository($repositoryId, $this->gitea))->show();
         $output->writeln(' OK');
 
-        $output->write('Update repository in CompoLab...');
+        $output->write('Update repository in Acappella...');
         $this->repositoryManager->registerRepository($repository);
         $this->repositoryManager->save();
         $output->writeln(' OK');

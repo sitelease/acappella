@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Tests\Domain\ValueObject;
+namespace Acappella\Tests\Domain\ValueObject;
 
-use CompoLab\Domain\ValueObject\Version;
+use Acappella\Domain\ValueObject\Version;
 use PHPUnit\Framework\TestCase;
 
 final class VersionTest extends TestCase

@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Tests\Domain\ValueObject;
+namespace Acappella\Tests\Domain\ValueObject;
 
-use CompoLab\Domain\ValueObject\Reference;
+use Acappella\Domain\ValueObject\Reference;
 use PHPUnit\Framework\TestCase;
 
 final class ReferenceTest extends TestCase

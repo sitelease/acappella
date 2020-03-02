@@ -1,6 +1,6 @@
 <?php
 
-namespace CompoLab\Tests\Utils;
+namespace Acappella\Tests\Utils;
 
 use GuzzleHttp\Psr7\Response;
 use Http\Client\HttpClient;

@@ -1,6 +1,6 @@
 <?php
 
-namespace CompoLab\Domain\ValueObject;
+namespace Acappella\Domain\ValueObject;
 
 final class Dir
 {

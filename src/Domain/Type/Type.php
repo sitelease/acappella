@@ -1,6 +1,6 @@
 <?php
 
-namespace CompoLab\Domain\Type;
+namespace Acappella\Domain\Type;
 
 interface Type
 {

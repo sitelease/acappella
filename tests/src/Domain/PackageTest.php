@@ -1,12 +1,12 @@
 <?php
 
-namespace CompoLab\Tests\Domain;
+namespace Acappella\Tests\Domain;
 
-use CompoLab\Domain\Package;
-use CompoLab\Domain\Repository;
-use CompoLab\Domain\ValueObject\Dir;
-use CompoLab\Domain\ValueObject\Url;
-use CompoLab\Domain\ValueObject\Version;
+use Acappella\Domain\Package;
+use Acappella\Domain\Repository;
+use Acappella\Domain\ValueObject\Dir;
+use Acappella\Domain\ValueObject\Url;
+use Acappella\Domain\ValueObject\Version;
 use PHPUnit\Framework\TestCase;
 
 final class PackageTest extends TestCase
@@ -23,7 +23,7 @@ final class PackageTest extends TestCase
 
     public function testBuildFromArrayWithoutAsset()
     {
-        $this->expectException(CompoLabException::class);
+        $this->expectException(AcappellaException::class);
 
         Package::buildFromArray(__DIR__ . '/../../cache', [
             'name'    => 'vendor/repository',

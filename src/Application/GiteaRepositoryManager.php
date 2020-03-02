@@ -1,18 +1,18 @@
 <?php
 
-namespace CompoLab\Application;
+namespace Acappella\Application;
 
-use CompoLab\Domain\Dist;
-use CompoLab\Domain\Package;
-use CompoLab\Domain\PackageConfiguration;
-use CompoLab\Domain\RepositoryCache;
-use CompoLab\Domain\Source;
-use CompoLab\Domain\Type\Git;
-use CompoLab\Domain\Type\Tar;
-use CompoLab\Domain\ValueObject\Reference;
-use CompoLab\Domain\ValueObject\Url;
-use CompoLab\Domain\ValueObject\Version;
-use CompoLab\Exception\CompoLabException;
+use Acappella\Domain\Dist;
+use Acappella\Domain\Package;
+use Acappella\Domain\PackageConfiguration;
+use Acappella\Domain\RepositoryCache;
+use Acappella\Domain\Source;
+use Acappella\Domain\Type\Git;
+use Acappella\Domain\Type\Tar;
+use Acappella\Domain\ValueObject\Reference;
+use Acappella\Domain\ValueObject\Url;
+use Acappella\Domain\ValueObject\Version;
+use Acappella\Exception\AcappellaException;
 // use Gitea\Model\Commit;
 use Gitea\Model\Repository;
 use Gitea\Model\Branch;
@@ -48,8 +48,8 @@ final class GiteaRepositoryManager
                     $this->registerBranch($branch);
 
                 } catch (\Exception $e) {
-                    if ($e instanceof CompoLabException) {
-                        // print("CompoLabException Detected");
+                    if ($e instanceof AcappellaException) {
+                        // print("AcappellaException Detected");
                         throw $e;
                     } else {
                         // print("Branch could not be processed \n");
@@ -59,7 +59,7 @@ final class GiteaRepositoryManager
                 }
             }
         } else{
-            throw new CompoLabException(sprintf('Impossible to get branches from repository "%s"',
+            throw new AcappellaException(sprintf('Impossible to get branches from repository "%s"',
                 $repositoryName));
         }
 
@@ -72,8 +72,8 @@ final class GiteaRepositoryManager
                     $this->registerTag($tag);
 
                 } catch (\Exception $e) {
-                    if ($e instanceof CompoLabException) {
-                        // print("CompoLabException Detected");
+                    if ($e instanceof AcappellaException) {
+                        // print("AcappellaException Detected");
                         throw $e;
                     } else {
                         // print("Branch could not be processed \n");
@@ -148,7 +148,7 @@ final class GiteaRepositoryManager
         $repository = $branch->searchRequestChain(Repository::class);
 
         if (!$repository) {
-            throw new CompoLabException(sprintf('Impossible to get Repository object from branch request chain (branch: %s)',
+            throw new AcappellaException(sprintf('Impossible to get Repository object from branch request chain (branch: %s)',
                 $branchName
             ));
         }
@@ -156,7 +156,7 @@ final class GiteaRepositoryManager
         $commit = $branch->getCommit();
 
         if (!$commit) {
-            throw new CompoLabException(sprintf('Impossible to get Commit object from branch (branch: %s)',
+            throw new AcappellaException(sprintf('Impossible to get Commit object from branch (branch: %s)',
                 $branchName
             ));
         }
@@ -193,7 +193,7 @@ final class GiteaRepositoryManager
         $repository = $tag->searchRequestChain(Repository::class);
 
         if (!$repository) {
-            throw new CompoLabException(sprintf('Impossible to get Repository object from tag request chain (tag: %s)',
+            throw new AcappellaException(sprintf('Impossible to get Repository object from tag request chain (tag: %s)',
                 $tagName
             ));
         }
@@ -201,7 +201,7 @@ final class GiteaRepositoryManager
         $commitSha = $tag->getCommitSha();
 
         if (!$commitSha) {
-            throw new CompoLabException(sprintf('Impossible to get commit SHA from tag (tag: %s)',
+            throw new AcappellaException(sprintf('Impossible to get commit SHA from tag (tag: %s)',
                 $tagName
             ));
         }
@@ -314,7 +314,7 @@ final class GiteaRepositoryManager
             $archive = $repository->archive($commitSha);
 
             if (!$archive) {
-                throw new CompoLabException(sprintf('Impossible to get archive from repository %s for commit %s',
+                throw new AcappellaException(sprintf('Impossible to get archive from repository %s for commit %s',
                 $repository->getName(),
                 $commitSha));
             }
@@ -329,7 +329,7 @@ final class GiteaRepositoryManager
             );
 
         } catch (\Exception $e) {
-            throw new CompoLabException(sprintf('Impossible to put content to %s (%s)', $path, $e->getMessage()));
+            throw new AcappellaException(sprintf('Impossible to put content to %s (%s)', $path, $e->getMessage()));
         }
     }
 }

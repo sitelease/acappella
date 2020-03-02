@@ -1,12 +1,12 @@
 <?php
 
-namespace CompoLab\Tests\Domain;
+namespace Acappella\Tests\Domain;
 
-use CompoLab\Domain\Package;
-use CompoLab\Domain\Repository;
-use CompoLab\Domain\ValueObject\Dir;
-use CompoLab\Domain\ValueObject\File;
-use CompoLab\Domain\ValueObject\Url;
+use Acappella\Domain\Package;
+use Acappella\Domain\Repository;
+use Acappella\Domain\ValueObject\Dir;
+use Acappella\Domain\ValueObject\File;
+use Acappella\Domain\ValueObject\Url;
 use PHPUnit\Framework\TestCase;
 
 final class RepositoryTest extends TestCase

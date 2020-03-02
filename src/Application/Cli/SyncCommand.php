@@ -1,8 +1,8 @@
 <?php
 
-namespace CompoLab\Application\Cli;
+namespace Acappella\Application\Cli;
 
-use CompoLab\Application\GiteaRepositoryManager;
+use Acappella\Application\GiteaRepositoryManager;
 use Gitea\Client as Gitea;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -29,7 +29,7 @@ final class SyncCommand extends Command
     {
         $this
             ->setName('sync')
-            ->setDescription('Sync the CompoLab cache with Gitea')
+            ->setDescription('Sync the Acappella cache with Gitea')
             ->setHelp('This command will list all Gitea repositories (accessible with the specified token), generate a complete packages.json based on this list and download all package archives into the web-accessible cache directory.')
         ;
     }

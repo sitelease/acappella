@@ -1,11 +1,11 @@
 <?php
 
-namespace CompoLab\Domain;
+namespace Acappella\Domain;
 
-use CompoLab\Domain\ValueObject\Dir;
-use CompoLab\Domain\ValueObject\File;
-use CompoLab\Domain\ValueObject\Url;
-use CompoLab\Exception\CompoLabException;
+use Acappella\Domain\ValueObject\Dir;
+use Acappella\Domain\ValueObject\File;
+use Acappella\Domain\ValueObject\Url;
+use Acappella\Exception\AcappellaException;
 
 final class Repository implements \Countable, \JsonSerializable
 {
@@ -125,7 +125,7 @@ final class Repository implements \Countable, \JsonSerializable
         // print("path -> $path \n");
 
         if (!$json = file_get_contents($path)) {
-            throw new CompoLabException(sprintf('File "%s" is not readable', $path));
+            throw new AcappellaException(sprintf('File "%s" is not readable', $path));
         }
 
         return self::buildFromJson($baseUrl, $cachePath, $json);
@@ -134,11 +134,11 @@ final class Repository implements \Countable, \JsonSerializable
     public static function buildFromJson(Url $baseUrl, Dir $cachePath, string $json): self
     {
         if (!$data = json_decode($json, true)) {
-            throw new CompoLabException('Impossible to decode JSON string as array');
+            throw new AcappellaException('Impossible to decode JSON string as array');
         }
 
         if (!isset($data['packages'])) {
-            throw new CompoLabException('Malformed JSON');
+            throw new AcappellaException('Malformed JSON');
         }
 
         $repository = new self($baseUrl, $cachePath);

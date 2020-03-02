@@ -1,6 +1,6 @@
 <?php
 
-namespace CompoLab\Domain;
+namespace Acappella\Domain;
 
 interface RepositoryCache extends \Countable
 {

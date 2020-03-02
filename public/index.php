@@ -2,13 +2,13 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use CompoLab\Application\Http\Kernel as CompoLabKernel;
-use CompoLab\Infrastructure\Services;
+use Acappella\Application\Http\Kernel as AcappellaKernel;
+use Acappella\Infrastructure\Services;
 use Symfony\Component\HttpFoundation\Request;
 
 $services = Services::getInstance();
 
-$kernel = new CompoLabKernel(
+$kernel = new AcappellaKernel(
     $services->gitea,
     $services->manager
 );
