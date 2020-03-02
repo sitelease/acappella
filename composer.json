@@ -1,6 +1,6 @@
 {
   "name": "bricev/compolab",
-  "description": "Composer Repository for GitLab",
+  "description": "Composer Repository for Gitea",
   "license": "proprietary",
   "require": {
     "sitelease/gitea-php": "@dev",

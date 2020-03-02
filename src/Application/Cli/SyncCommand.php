@@ -29,8 +29,8 @@ final class SyncCommand extends Command
     {
         $this
             ->setName('sync')
-            ->setDescription('Sync the CompoLab cache with GitLab')
-            ->setHelp('This command will list all GitLab repositories (accessible with the specified token), generate a complete packages.json based on this list and download all package archives into the web-accessible cache directory.')
+            ->setDescription('Sync the CompoLab cache with Gitea')
+            ->setHelp('This command will list all Gitea repositories (accessible with the specified token), generate a complete packages.json based on this list and download all package archives into the web-accessible cache directory.')
         ;
     }
 

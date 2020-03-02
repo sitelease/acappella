@@ -30,16 +30,16 @@ final class UpdateCommand extends Command
     {
         $this
             ->setName('update')
-            ->setDescription('Update a GitLab repository in CompoLab')
+            ->setDescription('Update a Gitea repository in CompoLab')
             ->setHelp('This command will update a specific repository (tags and branches) in the packages.json file, and download associated package archives into the web-accessible cache directory.')
-            ->addArgument('repository', InputArgument::REQUIRED, 'Repository ID (can be found from GitLab in repository settings')
+            ->addArgument('repository', InputArgument::REQUIRED, 'Repository ID (can be found from Gitea in repository settings')
         ;
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $repositoryId = (int) $input->getArgument('repository');
-        $output->write(sprintf('Find repository %d from GitLab...', $repositoryId));
+        $output->write(sprintf('Find repository %d from Gitea...', $repositoryId));
         $repository = (new Repository($repositoryId, $this->gitea))->show();
         $output->writeln(' OK');
 
