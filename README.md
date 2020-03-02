@@ -109,4 +109,7 @@ OR you may set the repository address directly in your package's composer.json f
 }
 ```
 
-
+### What's next?
+- [ ] Update PHPUnit tests 
+- [ ] Update and test Docker deployment
+- [ ] Create a simple Web based interface (like satis' perhaps?) 
