@@ -39,17 +39,17 @@ path where you want to install Acappella).
 
 	The main concern is to make `public/packages.json` and `public/archives` accessible from the root of your domain (eg. https://composer.my-website.com/packages.json). **All other queries must be forwarded to `public/index.php`.**
 
-	A documented Nginx configuration example can be found here: `config/templates/nginx.conf`.
+	**NOTE:** You can find example Nginx and Apache configuration files in the `config/templates/` folder.
 
-5. With that complete, you can now register your existing composer packages with Acappella using it's `cli` script. Open a terminal on your server (over SSH if need be) and run the following command: 
-	
+5. With that complete, you can now register your existing composer packages with Acappella using it's `cli` script. Open a terminal on your server (over SSH if need be) and run the following command:
+
 	```
 	php bin/cli sync
-	``` 
-	
+	```
+
 	This will fully synchronize your Gitea server with your Acappella repository. Once executed, all distribution archives will be stored in the Acappella cache and the `packages.json` index will be up to date.
 
-6. Last but not least, you will need to create a `Push Events` webhook. 
+6. Last but not least, you will need to create a `Push Events` webhook.
 
 	For this you have two options (well, technically three), create a default webhook (admin only), create an organization webhook, or create a Repository webhook (not recommended). Each option has its own pros and cons.
 
@@ -65,7 +65,7 @@ path where you want to install Acappella).
 
 	Set the Target URL to `https://composer.my-website.com/gitea` (where `composer.my-website.com` is the domain or IP you want to use with your Acappella instance), set HTTP Method to `POST`, POST Content Type to `application/json` and ensure that Trigger On is set to `Push Events`.
 
-    Last but not least, pop open a terminal and generate a 16 character secret key by running: 
+    Last but not least, pop open a terminal and generate a 16 character secret key by running:
     ```
     openssl rand -hex 16
     ```
@@ -110,6 +110,7 @@ OR you may set the repository address directly in your package's composer.json f
 ```
 
 ### What's next?
-- [ ] Update PHPUnit tests 
+- [x] Add an example Apache configuration
+- [ ] Update PHPUnit tests
 - [ ] Update and test Docker deployment
-- [ ] Create a simple Web based interface (like satis' perhaps?) 
+- [ ] Create a simple Web based interface (like satis' perhaps?)
