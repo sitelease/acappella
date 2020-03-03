@@ -3,7 +3,7 @@ Acappella
 Acappella is a private [composer](https://getcomposer.org/) repository server that syncs with [Gitea](https://docs.gitea.io/en-us/). You can think of it as a self hosted, headless, packagist with Gitea super powers.
 
 ### Why Acappella
-While there are several private composer repository projects already out there ([satis](https://github.com/composer/satis), [CompoLab](https://github.com/bricev/CompoLab), [gitlab-composer](https://github.com/wemakecustom/gitlab-composer)) none of them where exclusively for Gitea. Acappella is. It's that simple ;)
+While there are several private composer repository projects already out there ([satis](https://github.com/composer/satis), [CompoLab](https://github.com/bricev/CompoLab), [gitlab-composer](https://github.com/wemakecustom/gitlab-composer)) none of them where exclusively for Gitea. Acappella is.
 
 ### How does it work?
 When you first setup Acappella it will connect to your Gitea server (using the API) and parse through all the repositories its given access to. It will then register any valid **\*** composer packages it finds and generate out a package.json file for composer to use.
@@ -110,7 +110,7 @@ OR you may set the repository address directly in your package's composer.json f
 ```
 
 ### What's next?
-- [x] Add an example Apache configuration
 - [ ] Update PHPUnit tests
-- [ ] Update and test Docker deployment
-- [ ] Create a simple Web based interface (like satis' perhaps?)
+- [ ] Update and test the Dockerfile
+- [x] Add an example Apache configuration file
+- [ ] Create a simple web based interface
