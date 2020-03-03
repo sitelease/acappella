@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a784d0efca9488b191e25a5289d9f9f",
+    "content-hash": "0849ab0ad611f742ecb4ef8a5ac48b04",
     "packages": [
         {
             "name": "cedx/enum",
@@ -600,12 +600,18 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
-            "name": "sitelease/gitea-php",
-            "version": "dev-master",
+            "name": "sitelease/sugar-cube-client",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sitelease/sugar-cube-client.git",
+                "reference": "27972b95c77fd0ca52c69811369caad17806b807"
+            },
             "dist": {
-                "type": "path",
-                "url": "/home/benjamin/Web_Design/Server Technologies/gitea.php",
-                "reference": "239b6b47486bfe80b98234b2e63745aab8f9c61e"
+                "type": "zip",
+                "url": "https://api.github.com/repos/sitelease/sugar-cube-client/zipball/27972b95c77fd0ca52c69811369caad17806b807",
+                "reference": "27972b95c77fd0ca52c69811369caad17806b807",
+                "shasum": ""
             },
             "require": {
                 "cedx/enum": "^7.4.0",
@@ -615,9 +621,6 @@
                 "php": ">=7.2.0"
             },
             "require-dev": {
-                "cedx/coveralls": "^10.1.0",
-                "consolidation/robo": "^1.4.9",
-                "henrikbjorn/lurker": "^1.2.0",
                 "phpstan/phpstan": "^0.11.5",
                 "phpunit/phpunit": "^8.1.2"
             },
@@ -627,59 +630,43 @@
                     "Gitea\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "files": [
-                    "vendor/phpunit/phpunit/src/Framework/Assert/Functions.php"
-                ],
-                "psr-4": {
-                    "Gitea\\": "test/"
-                }
-            },
-            "scripts": {
-                "coverage": [
-                    "robo coverage"
-                ],
-                "test": [
-                    "robo test"
-                ]
-            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
                     "email": "contact@sabcomputer.com",
-                    "name": "SAB International",
+                    "name": "SAB International (old)",
                     "homepage": "http://www.sabcomputer.com"
                 },
                 {
                     "email": "cedric@belin.io",
-                    "name": "Cédric Belin",
+                    "name": "Cédric Belin (old)",
                     "homepage": "https://belin.io"
                 },
                 {
                     "email": "ben@sitelease.ca",
-                    "name": "Benjamin Blake",
+                    "name": "Benjamin Blake (current)",
                     "homepage": "https://www.sitelease.ca"
                 }
             ],
-            "description": "Gitea client library.",
-            "homepage": "https://github.com/mooror/gitea.php",
+            "description": "A sweet Gitea API client for PHP",
+            "homepage": "https://github.com/sitelease/sugar-cube-client",
             "keywords": [
                 "api",
                 "client",
                 "git",
                 "gitea",
                 "scm",
+                "sugar",
                 "vcs"
             ],
             "support": {
-                "docs": "https://github.com/mooror/gitea.php",
-                "issues": "https://github.com/mooror/gitea.php/issues"
+                "docs": "https://github.com/sitelease/sugar-cube-client",
+                "issues": "https://github.com/sitelease/sugar-cube-client/issues",
+                "source": "https://github.com/sitelease/sugar-cube-client/tree/1.0.1"
             },
-            "transport-options": {
-                "symlink": true
-            }
+            "time": "2020-03-03T22:17:24+00:00"
         },
         {
             "name": "symfony/config",
@@ -3416,11 +3403,11 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "sitelease/gitea-php": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.2.0"
+    },
     "platform-dev": []
 }
