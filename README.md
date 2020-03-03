@@ -17,7 +17,7 @@ By default, Acappella is not secured and will let anyone who has access to your 
 ### Requirements
 
 A (preferably unix) server configured with:
-- PHP 7 or above (only tested on PHP 7.4.2)
+- PHP 7.2 or above (only tested on PHP 7.4.2)
 - Git / Composer
 - A web server (Nginx or Apache)
 - A working instance of Gitea (preferably with an dedicated account for Acappella)
