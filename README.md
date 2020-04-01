@@ -92,9 +92,9 @@ Below is a list of the CLI's commands:
 * `php bin/cli sync` - The `sync` command will fully synchronize your Gitea server with Acappella.
 
     Once executed, all Gitea repositories containing a composer package will be downloaded as archives and stored in Acappella's system. cache and the `packages.json` index will be up to date.
-* `php bin/cli update *arg` - The `update` command accepts a single argument and will retrieve updates from Gitea for the specified package.
+* `php bin/cli update argument` - The `update` command accepts a single argument and will retrieve updates from Gitea for the specified package.
 
-    The argument can either be the name of a composer package (e.g. `firesphere/social`) or the name of a Gitea repository (e.g. `Sitelease/sugar-cube-client`)
+    The argument can either be the name of a composer package (`firesphere/social`), the name of a Gitea repository (`Sitelease/sugar-cube-client`) or the ID of the Gitea repository (`241`)
 * `php bin/cli install` - The `install` command is used to configure Acappella for the first time.
 
 ## Connecting to Acappella
