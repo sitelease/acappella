@@ -102,14 +102,18 @@ Below is a list of the CLI's commands:
 To allow your local Composer installation to connect to Acappella, you need to create a new `repository` configuration. You can create this setting in your global composer config file or directly in your composer package.
 
 #### Using a global setting
-You may execute the following command on your local computer/server to let Composer knows about the existance of Acappella:
+You may execute the following commands on your local computer/server to let Composer know about the existance of Acappella and to disable secure HTTP:
 ```
 composer config -g repositories.acappella composer http://composer.mygit.ca
+composer config --global secure-http false
 ```
 
 This command should add a `~/.composer/config.json` (on Unix systems) file containing the following lines:
 ```json
 {
+    "config": {
+        "secure-http": false
+    },
     "repositories": {
         "acappella": {
             "type": "composer",
@@ -124,6 +128,9 @@ This command should add a `~/.composer/config.json` (on Unix systems) file conta
 OR you may set the repository address directly in your package's composer.json file:
 ```json
 {
+    "config": {
+        "secure-http": false
+    },
     "repositories": [
         {
             "type": "composer",
