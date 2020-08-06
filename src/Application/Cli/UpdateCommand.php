@@ -32,7 +32,7 @@ final class UpdateCommand extends Command
             ->setName('update')
             ->setDescription('Update a Gitea repository in Acappella')
             ->setHelp('This command will update a specific repository (tags and branches) in the packages.json file, and download associated package archives into the web-accessible cache directory.')
-            ->addArgument('repository', InputArgument::REQUIRED, 'Repository ID (can be found from Gitea in repository settings')
+            ->addArgument('repository', InputArgument::REQUIRED, 'Repository name or ID (can be found from Gitea in repository settings)')
         ;
     }
 

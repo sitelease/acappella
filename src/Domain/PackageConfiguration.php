@@ -23,7 +23,7 @@ final class PackageConfiguration
         $keys = array_keys($data);
 
         if (!in_array('name', $keys)) {
-            throw new AcappellaException('Malformed package configuration');
+            throw new AcappellaException('Malformed package configuration - No name key found');
         }
 
         $this->data = $data;
@@ -41,7 +41,7 @@ final class PackageConfiguration
     public static function buildFromJson(string $json): self
     {
         if (!$data = json_decode($json, true)) {
-            throw new AcappellaException('Impossible to decode JSON string as array');
+            throw new AcappellaException('Malformed JSON - Impossible to decode JSON string as array');
         }
 
         return new self($data);
