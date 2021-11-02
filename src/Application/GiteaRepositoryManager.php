@@ -260,7 +260,7 @@ final class GiteaRepositoryManager
         // print("Name -> ".$repository->getName()."\n");
         // print("Ref -> ".$gitRef."\n");
         // print("\n");
-        $jsonString = $client->repositories()->getRawFile(
+        $jsonString = $client->repositories()->getFileContents(
             $owner->getUsername(),
             $repository->getName(),
             "composer.json"
