@@ -1,0 +1,5 @@
+RewriteEngine on
+# If th requested URL doesnt start with "public/"
+RewriteCond %{REQUEST_URI} !public/
+# Add in that "public/" route string
+RewriteRule (.*) /public/$1 [L]

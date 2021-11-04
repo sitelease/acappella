@@ -1,0 +1,6 @@
+RewriteEngine on
+# This checks for existing folders (-d) and files (-f):
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+# If no existing files or folders were found, redirect request to the index.php file
+RewriteRule . index.php [L]
