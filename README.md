@@ -39,7 +39,13 @@ path where you want to install Acappella).
 
 	The main concern is to make `public/packages.json` and `public/archives` accessible from the root of your domain (eg. https://composer.my-website.com/packages.json). **All other queries must be forwarded to `public/index.php`.**
 
-	**NOTE:** You can find example Nginx and Apache configuration files in the `config/templates/` folder.
+    **Apache:** If your using Apache, this functionality should be working out of the box as we've included some .htacess files (in the root and `public/` folder). Burt to ensure it is make sure you can access the packages.json (via `https://composer.my-website.com/packages.json`) file and the `/gitea` route (via `https://composer.my-website.com/gitea`).
+
+    The first url should display an empty JSON string (or perhaps not empty if you have already synced packages), and the second should give you a warning that says `"FAILED: Not POST - The request was not sent using the POST protocol"`. Which is to be expected (in other words thats a good thing).
+
+    *"No route found" ERROR -* If you go to access the packages.json file and you get a JSON response with the message `"No route found for \"GET /packages.json\""`, you may have an anti-hacking software running that is blocking access to `package.json` and `packages.json` files (we encountered this on one of our server installations). in which case you may need to contact your server admin or support team for assistance.
+
+	**Nginx:** Nginx users can find a configuration file in the `config/templates/` folder, but its untested so I cannot guarantee that it will work (sorry yall I don't use NGINX)
 
 5. With that complete, you can now register your existing composer packages with Acappella using it's `cli` script. Open a terminal on your server (over SSH if need be) and run the following command:
 
