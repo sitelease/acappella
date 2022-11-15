@@ -263,7 +263,8 @@ final class GiteaRepositoryManager
         $jsonString = $client->repositories()->getFileContents(
             $owner->getUsername(),
             $repository->getName(),
-            "composer.json"
+            "composer.json",
+            $gitRef
         );
 
         if ($jsonString && is_string($jsonString)) {
