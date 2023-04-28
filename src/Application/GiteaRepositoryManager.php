@@ -163,7 +163,7 @@ final class GiteaRepositoryManager
 
         $commitSha = $commit->getId();
 
-        $composerJson = $this->getComposerJson($repository, $branchName);
+        $composerJson = $this->getComposerJson($repository, $commitSha);
 
         $version = Version::buildFromString($branchName);
 
@@ -206,7 +206,7 @@ final class GiteaRepositoryManager
             ));
         }
 
-        $composerJson = $this->getComposerJson($repository, $tagName);
+        $composerJson = $this->getComposerJson($repository, $commitSha);
 
         $version = Version::buildFromString($tagName);
 

@@ -32,22 +32,51 @@ final class UpdateCommand extends Command
             ->setName('update')
             ->setDescription('Update a Gitea repository in Acappella')
             ->setHelp('This command will update a specific repository (tags and branches) in the packages.json file, and download associated package archives into the web-accessible cache directory.')
-            ->addArgument('repository', InputArgument::REQUIRED, 'Repository ID (can be found from Gitea in repository settings')
+            ->addArgument('repository', InputArgument::REQUIRED, 'Repository name or ID (can be found from Gitea in repository settings)')
         ;
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $repositoryId = (int) $input->getArgument('repository');
-        $output->write(sprintf('Find repository %d from Gitea...', $repositoryId));
-        $repository = (new Repository($repositoryId, $this->gitea))->show();
-        $output->writeln(' OK');
+        $gitea = $this->gitea;
+        $arg1 = $input->getArgument('repository');
 
-        $output->write('Update repository in Acappella...');
-        $this->repositoryManager->registerRepository($repository);
-        $this->repositoryManager->save();
-        $output->writeln(' OK');
+        $repository = false;
+        if (ctype_digit($arg1)) {
+            $repoID = (int) $arg1;
+            $output->write(sprintf('Finding Gitea repository with ID of "%d"...', $repoID));
+            $repository = $gitea->repositories()->getById($repoID);
+        } else {
+            $packageFullName = $arg1;
+            $output->write(sprintf('Finding Gitea repository "%s"...', $packageFullName));
+            if (strpos($packageFullName, '/') !== false) {
+                $packageNameArray = explode("/", $packageFullName);
+                $owner = $packageNameArray[0];
+                $repoName = $packageNameArray[1];
 
-        $output->writeln('Finished');
+                // Convert composer vendor name to owner name
+                if ($owner === "sitelease") {
+                    $owner = "Sitelease";
+                }
+            } else {
+                $owner = "Sitelease";
+                $repoName = $packageFullName;
+            }
+            $repository = $gitea->repositories()->getByName($owner, $repoName);
+        }
+
+        if ($repository){
+            $output->writeln(' OK');
+
+            $output->write('Updating Acappella repository package...');
+            $this->repositoryManager->registerRepository($repository);
+            $this->repositoryManager->save();
+            $output->writeln(' OK');
+
+            $output->writeln('Finished');
+        } else {
+            $output->writeln(' ERROR');
+            $output->write('A problem was encountered when trying to retrieve the repository');
+        }
     }
 }

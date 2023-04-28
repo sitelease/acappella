@@ -1,20 +1,32 @@
-Acappella
-========
+# Acappella <!-- omit in toc -->
 Acappella is a private [composer](https://getcomposer.org/) repository server that syncs with [Gitea](https://docs.gitea.io/en-us/). You can think of it as a self hosted, headless, packagist with Gitea super powers.
 
-### Why Acappella
+## Table of Contents <!-- omit in toc -->
+- [Why Acappella](#why-acappella)
+- [How does it work?](#how-does-it-work)
+- [Security disclaimer](#security-disclaimer)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [CLI Commands](#cli-commands)
+- [Connecting to Acappella](#connecting-to-acappella)
+    - [Using a global setting](#using-a-global-setting)
+    - [Using a package setting](#using-a-package-setting)
+- [What's next?](#whats-next)
+
+
+## Why Acappella
 While there are several private composer repository projects already out there ([satis](https://github.com/composer/satis), [CompoLab](https://github.com/bricev/CompoLab), [gitlab-composer](https://github.com/wemakecustom/gitlab-composer)) none of them where exclusively for Gitea. Acappella is.
 
-### How does it work?
+## How does it work?
 When you first setup Acappella it will connect to your Gitea server (using the API) and parse through all the repositories its given access to. It will then register any valid **\*** composer packages it finds and generate out a package.json file for composer to use.
 
 **\*** In order for Acappella to register a Gitea repository as a "valid" composer package it must contain a properly formatted `composer.json` file in it's root directory.
 
-### Security disclaimer
+## Security disclaimer
 
 By default, Acappella is not secured and will let anyone who has access to your server, access your packages. In order to secure access to your packages, you will need to setup some form of security layer (using IP whitelisting, SSL certificates, or some other system of your choosing).
 
-### Requirements
+## Requirements
 
 A (preferably unix) server configured with:
 - PHP 7.2 or above (only tested on PHP 7.4.2)
@@ -22,7 +34,7 @@ A (preferably unix) server configured with:
 - A web server (Nginx or Apache)
 - A working instance of Gitea (preferably with an dedicated account for Acappella)
 
-### Installation
+## Installation
 
 1. From your Gitea instance, go to your account settings, then go to the `Applications` tab and create a token with the name of your choice (eg. Acappella). Once it redirects you, copy the generated token (displayed in the blue alert box).
 
@@ -79,43 +91,63 @@ path where you want to install Acappella).
 
 **You're all set up!** Your repository is now complete and any future push/tag made to Gitea will be registred by Acappella.
 
-### Usage
+## CLI Commands
 
-In order to let your local Composer installation know where to find your Acappella repository, you need to add some configuration. You may configure your repository from your machine or directly from your package.
+Below is a list of the CLI's commands:
 
-##### Local setting
-You may execute the following command on your local computer/server to let Composer knows about the existance of Acappella:
+* `php bin/cli sync` - The `sync` command will fully synchronize your Gitea server with Acappella.
+
+    Once executed, all Gitea repositories containing a composer package will be downloaded as archives and stored in Acappella's system. cache and the `packages.json` index will be up to date.
+* `php bin/cli update argument` - The `update` command accepts a single argument and will retrieve updates from Gitea for the specified package.
+
+    The argument can either be the name of a composer package (`firesphere/social`), the name of a Gitea repository (`Sitelease/sugar-cube-client`) or the ID of the Gitea repository (`241`)
+* `php bin/cli install` - The `install` command is used to configure Acappella for the first time.
+
+## Connecting to Acappella
+
+To allow your local Composer installation to connect to Acappella, you need to create a new `repository` configuration. You can create this setting in your global composer config file or directly in your composer package.
+
+#### Using a global setting
+You may execute the following commands on your local computer/server to let Composer know about the existance of Acappella and to disable secure HTTP:
 ```
-composer config -g repositories.acappella composer https://composer.my-website.com
+composer config -g repositories.acappella composer http://composer.mygit.ca
+composer config --global secure-http false
 ```
 
 This command should add a `~/.composer/config.json` (on Unix systems) file containing the following lines:
 ```json
 {
+    "config": {
+        "secure-http": false
+    },
     "repositories": {
         "acappella": {
             "type": "composer",
-            "url": "https://composer.my-website.com"
+            "url": "http://composer.mygit.ca"
         }
     }
 }
 ```
 
-##### Package setting
+#### Using a package setting
 
 OR you may set the repository address directly in your package's composer.json file:
 ```json
 {
+    "config": {
+        "secure-http": false
+    },
     "repositories": [
         {
             "type": "composer",
-            "url": "https://composer.my-website.com"
+            "url": "http://composer.mygit.ca"
         }
     ]
 }
 ```
 
-### What's next?
+## What's next?
+- [x] Fix the cli "update" command
 - [ ] Update PHPUnit tests
 - [ ] Update and test the Dockerfile
 - [x] Add an example Apache configuration file
