@@ -2,7 +2,11 @@
 
 namespace Acappella\Domain\Utils;
 
-interface JsonConvertible extends \ArrayAccess, \IteratorAggregate, \JsonSerializable
+use ArrayAccess;
+use IteratorAggregate;
+use JsonSerializable;
+
+interface JsonConvertible extends ArrayAccess, IteratorAggregate, JsonSerializable
 {
     public function _toArray(): array;
 }

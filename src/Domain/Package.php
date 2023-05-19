@@ -32,7 +32,7 @@ final class Package implements JsonConvertible
         PackageConfiguration $packageConfiguration,
         ?Source $source,
         ?Dist $dist
-    ){
+    ) {
         if (is_null($source) and is_null($dist)) {
             throw new AcappellaException(sprintf('Package "%s" must have at least a source or a dist', $name));
         }

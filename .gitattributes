@@ -1,0 +1,6 @@
+* text=auto
+
+*.ico binary
+*.jpg binary
+*.pdf binary
+*.png binary

@@ -17,7 +17,7 @@ final class Dist implements JsonConvertible
 {
     use JsonConvertibleTrait;
 
-    const ARCHIVE_EXT = 'tar.gz';
+    public const ARCHIVE_EXT = 'tar.gz';
 
     /** @var Type */
     private $type;
@@ -55,20 +55,30 @@ final class Dist implements JsonConvertible
         return $this->localPath;
     }
 
-    public static function buildArchivePath(string $name, Version $version, Reference $reference, string $cachePath = null): string
-    {
-        return sprintf('%s/archives/%s/%s/%s.%s',
+    public static function buildArchivePath(
+        string $name,
+        Version $version,
+        Reference $reference,
+        string $cachePath = null
+    ): string {
+        return sprintf(
+            '%s/archives/%s/%s/%s.%s',
             rtrim($cachePath, '/'),
             $name,
             $version,
             $reference,
-            self::ARCHIVE_EXT);
+            self::ARCHIVE_EXT
+        );
     }
 
-    public static function buildFromArray(string $cachePath, string $packageName, Version $packageVersion, array $data): self
-    {
+    public static function buildFromArray(
+        string $cachePath,
+        string $packageName,
+        Version $packageVersion,
+        array $data
+    ): self {
         return new self(
-            isset($data['type']) ? Factory::buildFromString($data['type']) : new Tar,
+            isset($data['type']) ? Factory::buildFromString($data['type']) : new Tar(),
             new Url($data['url']),
             $reference = new Reference($data['reference']),
             new File(self::buildArchivePath(

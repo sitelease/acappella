@@ -19,12 +19,12 @@ final class Kernel extends HttpKernel
 {
     public function __construct(Gitea $gitea, GiteaRepositoryManager $repositoryManager)
     {
-        $matcher = new UrlMatcher(new Routing($gitea, $repositoryManager), new RequestContext);
+        $matcher = new UrlMatcher(new Routing($gitea, $repositoryManager), new RequestContext());
 
-        $dispatcher = new EventDispatcher;
+        $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber(new ExceptionListener([ExceptionController::class, 'handle']));
-        $dispatcher->addSubscriber(new RouterListener($matcher, new RequestStack));
+        $dispatcher->addSubscriber(new RouterListener($matcher, new RequestStack()));
 
-        parent::__construct($dispatcher, new ControllerResolver, new RequestStack, new ArgumentResolver);
+        parent::__construct($dispatcher, new ControllerResolver(), new RequestStack(), new ArgumentResolver());
     }
 }

@@ -18,7 +18,7 @@ use Acappella\Exception\AcappellaException;
  */
 final class Services
 {
-    const
+    public const
         CONFIG_DIRS = [__DIR__ . '/../../config'],
         CONFIG_NAME = 'services.yml';
 
@@ -48,11 +48,10 @@ final class Services
             }
 
             require_once $cachePath;
-            $services = new \ProjectServiceContainer;
-
+            $services = new \ProjectServiceContainer();
         } else {
             // ... otherwise compile & cache services
-            $services = new ContainerBuilder;
+            $services = new ContainerBuilder();
 
             $loader = new YamlFileLoader($services, new FileLocator(self::CONFIG_DIRS));
             $loader->load(self::CONFIG_NAME);
