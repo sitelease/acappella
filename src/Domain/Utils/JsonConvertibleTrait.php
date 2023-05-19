@@ -79,10 +79,8 @@ trait JsonConvertibleTrait
         foreach ($this as $key => $value) {
             if ($value instanceof JsonConvertible) {
                 $array[$key] = $value->_toArray();
-
             } elseif (is_object($value) and method_exists($value, '__toString')) {
                 $array[$key] = (string) $value;
-
             } else {
                 $array[$key] = $value;
             }

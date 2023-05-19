@@ -33,7 +33,7 @@ final class Source implements JsonConvertible
     public static function buildFromArray(array $data): self
     {
         return new self(
-            isset($data['type']) ? Factory::buildFromString($data['type']) : new Git,
+            isset($data['type']) ? Factory::buildFromString($data['type']) : new Git(),
             new Url($data['url']),
             new Reference($data['reference'])
         );

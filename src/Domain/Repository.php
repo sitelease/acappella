@@ -9,7 +9,7 @@ use Acappella\Exception\AcappellaException;
 
 final class Repository implements \Countable, \JsonSerializable
 {
-    const INDEX = 'packages.json';
+    public const INDEX = 'packages.json';
 
     /** @var Url */
     private $baseUrl;
@@ -41,9 +41,11 @@ final class Repository implements \Countable, \JsonSerializable
     public function getUrl(string $uri): Url
     {
         return new Url(
-            sprintf('%s/%s',
+            sprintf(
+                '%s/%s',
                 rtrim($this->baseUrl, '/'),
-                ltrim($uri, '/'))
+                ltrim($uri, '/')
+            )
         );
     }
 
@@ -60,9 +62,11 @@ final class Repository implements \Countable, \JsonSerializable
     public function getFile(string $path): File
     {
         return new File(
-            sprintf('%s/%s',
+            sprintf(
+                '%s/%s',
                 $this->cachePath,
-                ltrim($path, '/'))
+                ltrim($path, '/')
+            )
         );
     }
 

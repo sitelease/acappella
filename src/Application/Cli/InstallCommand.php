@@ -32,7 +32,8 @@ final class InstallCommand extends Command
 
         if ($input->getOption('reset')) {
             $validateReset = $helper->ask($input, $output, new ConfirmationQuestion(
-                'Are you sure you want to erase all repository packages (y/n)? ', false
+                'Are you sure you want to erase all repository packages (y/n)? ',
+                false
             ));
             if (!$validateReset) {
                 $output->writeln('Aborting installation.');
@@ -121,7 +122,8 @@ final class InstallCommand extends Command
         $output->writeln('Finished');
     }
 
-    private function rmdir($dir, bool $rmCurrent = false) {
+    private function rmdir($dir, bool $rmCurrent = false)
+    {
         foreach (array_diff(scandir($dir), ['.', '..', '.gitkeep']) as $file) {
             if (is_dir($path = "$dir/$file")) {
                 $this->rmdir($path, true);

@@ -46,7 +46,6 @@ final class GiteaRepositoryManager
                 try {
                     // print("Processing ".$branch->getName()."\n");
                     $this->registerBranch($branch);
-
                 } catch (\Exception $e) {
                     if ($e instanceof AcappellaException) {
                         // print("AcappellaException Detected");
@@ -58,9 +57,11 @@ final class GiteaRepositoryManager
                     }
                 }
             }
-        } else{
-            throw new AcappellaException(sprintf('Impossible to get branches from repository "%s"',
-                $repositoryName));
+        } else {
+            throw new AcappellaException(sprintf(
+                'Impossible to get branches from repository "%s"',
+                $repositoryName
+            ));
         }
 
         $tags = $repository->tags();
@@ -70,7 +71,6 @@ final class GiteaRepositoryManager
                 try {
                     // print("Processing ".$tag->getName()."\n");
                     $this->registerTag($tag);
-
                 } catch (\Exception $e) {
                     if ($e instanceof AcappellaException) {
                         // print("AcappellaException Detected");
@@ -148,7 +148,8 @@ final class GiteaRepositoryManager
         $repository = $branch->searchRequestChain(Repository::class);
 
         if (!$repository) {
-            throw new AcappellaException(sprintf('Impossible to get Repository object from branch request chain (branch: %s)',
+            throw new AcappellaException(sprintf(
+                'Impossible to get Repository object from branch request chain (branch: %s)',
                 $branchName
             ));
         }
@@ -156,7 +157,8 @@ final class GiteaRepositoryManager
         $commit = $branch->getCommit();
 
         if (!$commit) {
-            throw new AcappellaException(sprintf('Impossible to get Commit object from branch (branch: %s)',
+            throw new AcappellaException(sprintf(
+                'Impossible to get Commit object from branch (branch: %s)',
                 $branchName
             ));
         }
@@ -193,7 +195,8 @@ final class GiteaRepositoryManager
         $repository = $tag->searchRequestChain(Repository::class);
 
         if (!$repository) {
-            throw new AcappellaException(sprintf('Impossible to get Repository object from tag request chain (tag: %s)',
+            throw new AcappellaException(sprintf(
+                'Impossible to get Repository object from tag request chain (tag: %s)',
                 $tagName
             ));
         }
@@ -201,7 +204,8 @@ final class GiteaRepositoryManager
         $commitSha = $tag->getCommitSha();
 
         if (!$commitSha) {
-            throw new AcappellaException(sprintf('Impossible to get commit SHA from tag (tag: %s)',
+            throw new AcappellaException(sprintf(
+                'Impossible to get commit SHA from tag (tag: %s)',
                 $tagName
             ));
         }
@@ -230,7 +234,7 @@ final class GiteaRepositoryManager
     {
         // print("getSource() -> ");
         return new Source(
-            new Git,
+            new Git(),
             new Url($repository->getSshUrl()),
             new Reference($commitSha)
         );
@@ -242,7 +246,7 @@ final class GiteaRepositoryManager
         $archivePath = $this->getArchivePath($repository, $name, $version, $commitSha);
 
         return new Dist(
-            new Tar,
+            new Tar(),
             $this->repositoryCache->getRepository()->getUrl($archivePath),
             new Reference($commitSha),
             $this->repositoryCache->getRepository()->getFile($archivePath)
@@ -271,16 +275,18 @@ final class GiteaRepositoryManager
             try {
                 $jsonArray = json_decode($jsonString, true);
                 if (!is_array($jsonArray) || !in_array('name', array_keys($jsonArray))) {
-                    throw new \RuntimeException;
+                    throw new \RuntimeException();
                 }
             } catch (\Exception $e) {
-                throw new \RuntimeException(sprintf('Malformed composer.json from repository %s (ref: %s)',
+                throw new \RuntimeException(sprintf(
+                    'Malformed composer.json from repository %s (ref: %s)',
                     $repository->getName(),
                     $gitRef
                 ));
             }
         } else {
-            throw new \RuntimeException(sprintf('Impossible to get composer.json from repository %s (ref: %s)',
+            throw new \RuntimeException(sprintf(
+                'Impossible to get composer.json from repository %s (ref: %s)',
                 $repository->getName(),
                 $gitRef
             ));
@@ -297,7 +303,6 @@ final class GiteaRepositoryManager
         try {
             // This will check if the archive path exists and is a file
             $this->repositoryCache->getRepository()->getFile($archivePath);
-
         } catch (\Exception $e) {
             $this->createArchive($repository, $archivePath, $commitSha);
         }
@@ -308,17 +313,21 @@ final class GiteaRepositoryManager
     private function createArchive(Repository $repository, string $path, string $commitSha)
     {
         // print("createArchive() -> ");
-        $path = sprintf('%s/%s',
+        $path = sprintf(
+            '%s/%s',
             $this->repositoryCache->getRepository()->getCachePath(),
-            ltrim($path, '/'));
+            ltrim($path, '/')
+        );
 
-            $archive = $repository->archive($commitSha);
+        $archive = $repository->archive($commitSha);
 
-            if (!$archive) {
-                throw new AcappellaException(sprintf('Impossible to get archive from repository %s for commit %s',
+        if (!$archive) {
+            throw new AcappellaException(sprintf(
+                'Impossible to get archive from repository %s for commit %s',
                 $repository->getName(),
-                $commitSha));
-            }
+                $commitSha
+            ));
+        }
         try {
             if (!is_dir($dir = pathinfo($path, PATHINFO_DIRNAME))) {
                 mkdir($dir, 0755, true);
@@ -328,9 +337,12 @@ final class GiteaRepositoryManager
                 $path,
                 $archive
             );
-
         } catch (\Exception $e) {
-            throw new AcappellaException(sprintf('Impossible to put content to %s (%s)', $path, $e->getMessage()));
+            throw new AcappellaException(sprintf(
+                'Impossible to put content to %s (%s)',
+                $path,
+                $e->getMessage()
+            ));
         }
     }
 }

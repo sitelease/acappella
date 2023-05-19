@@ -56,7 +56,7 @@ final class JsonRepositoryCache implements RepositoryCache
         }
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->repository);
     }
