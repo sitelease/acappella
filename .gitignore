@@ -2,6 +2,7 @@
 /config/settings.yml
 /lab
 /public/archives/*
+/public/archives-backup/*
 !/public/archives/.gitkeep
 /public/packages.json
 /vendor
