@@ -8,5 +8,6 @@ interface RepositoryCache extends \Countable
     public function addPackage(Package $package);
     public function editPackage(Package $package);
     public function removePackage(Package $package);
+    public function removePackageByName(string $name, string $version = null);
     public function refresh();
 }

@@ -30,7 +30,11 @@ final class SyncCommand extends Command
         $this
             ->setName('sync')
             ->setDescription('Sync the Acappella cache with Gitea')
-            ->setHelp('This command will list all Gitea repositories (accessible with the specified token), generate a complete packages.json based on this list and download all package archives into the web-accessible cache directory.')
+            ->setHelp(
+                'This command will list all Gitea repositories (accessible with the'
+                .' specified token), generate a complete packages.json based on this list'
+                .' and download all package archives into the web-accessible cache directory.'
+            )
         ;
     }
 

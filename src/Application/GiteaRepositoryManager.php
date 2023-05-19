@@ -101,6 +101,21 @@ final class GiteaRepositoryManager
         );
     }
 
+    /**
+     * Remove a package from the repository using a passed in name and version
+     *
+     * @param string $name The name of package to remove
+     * @param string $version|null The version to remove (will remove entire package if no version is passed)
+     * @return void
+     */
+    public function removePackage(string $name, string $version = null)
+    {
+        $this->repositoryCache->removePackageByName(
+            $name,
+            $version
+        );
+    }
+
     /** TODO: Update */
     public function deleteRepository(Repository $repository)
     {

@@ -8,6 +8,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\Console\Application;
 use Acappella\Application\Cli\SyncCommand;
 use Acappella\Application\Cli\UpdateCommand;
+use Acappella\Application\Cli\RemoveCommand;
 use Acappella\Infrastructure\Services;
 
 //try {
@@ -16,6 +17,7 @@ use Acappella\Infrastructure\Services;
     $app = new Application('Acappella', 'v1.0');
     $app->add(new SyncCommand($services->gitea, $services->manager));
     $app->add(new UpdateCommand($services->gitea, $services->manager));
+    $app->add(new RemoveCommand($services->gitea, $services->manager));
     $app->run();
 
 //} catch (\Exception $e) {

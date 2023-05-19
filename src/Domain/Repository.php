@@ -77,6 +77,12 @@ final class Repository implements \Countable, \JsonSerializable
         );
     }
 
+    /**
+     * Add a package object to the repository
+     *
+     * @param Package $package
+     * @return void
+     */
     public function addPackage(Package $package)
     {
         if (!isset($this->packages[$package->getName()])) {
@@ -87,6 +93,12 @@ final class Repository implements \Countable, \JsonSerializable
         $this->count++;
     }
 
+    /**
+     * Remove a package from the repository using a package object
+     *
+     * @param Package $package
+     * @return void
+     */
     public function removePackage(Package $package)
     {
         if (!isset($this->packages[$package->getName()])) {
@@ -102,6 +114,39 @@ final class Repository implements \Countable, \JsonSerializable
 
         if (empty($this->packages[$package->getName()])) {
             unset($this->packages[$package->getName()]);
+        }
+    }
+
+    /**
+     * Remove a package from the repository using a passed in name and version
+     *
+     * @param string $name The name of package to remove
+     * @param string $version|null The version to remove (will remove entire package if no version is passed)
+     * @return void
+     */
+    public function removePackageByName(string $name, string $version = null)
+    {
+        // Check for existing package
+        if (!isset($this->packages[$name])) {
+            return;
+        }
+
+        if ($version) {
+            // If a version was passed check if it exists and remove it
+            if (!isset($this->packages[$name][$version])) {
+                return;
+            }
+
+            unset($this->packages[$name][$version]);
+            $this->count--;
+
+            // If it was the last version for a package, remove the package
+            if (empty($this->packages[$name])) {
+                unset($this->packages[$name]);
+            }
+        } else {
+            // If only a package name was passed, remove the entire package
+            unset($this->packages[$name]);
         }
     }
 

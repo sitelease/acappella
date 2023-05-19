@@ -31,8 +31,16 @@ final class UpdateCommand extends Command
         $this
             ->setName('update')
             ->setDescription('Update a Gitea repository in Acappella')
-            ->setHelp('This command will update a specific repository (tags and branches) in the packages.json file, and download associated package archives into the web-accessible cache directory.')
-            ->addArgument('repository', InputArgument::REQUIRED, 'Repository name or ID (can be found from Gitea in repository settings)')
+            ->setHelp(
+                'This command will update a specific repository (tags and branches)'
+                .' in the packages.json file, and download associated package archives'
+                .' into the web-accessible cache directory.'
+            )
+            ->addArgument(
+                'repository',
+                InputArgument::REQUIRED,
+                'Repository name or ID (can be found from Gitea in repository settings)'
+            )
         ;
     }
 
@@ -65,7 +73,7 @@ final class UpdateCommand extends Command
             $repository = $gitea->repositories()->getByName($owner, $repoName);
         }
 
-        if ($repository){
+        if ($repository) {
             $output->writeln(' OK');
 
             $output->write('Updating Acappella repository package...');
