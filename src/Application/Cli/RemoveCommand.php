@@ -53,14 +53,14 @@ final class RemoveCommand extends Command
     {
         $gitea = $this->gitea;
 
-        $repository = $input->getArgument('repository');
+        $package = $input->getArgument('package');
         $version = $input->getArgument('version');
 
         try {
             $output->writeln(' OK');
 
             $output->write('Removing Acappella composer package...');
-            $this->repositoryManager->removePackage($repository, $version);
+            $this->repositoryManager->removePackage($package, $version);
             $this->repositoryManager->save();
             $output->writeln(' OK');
 
