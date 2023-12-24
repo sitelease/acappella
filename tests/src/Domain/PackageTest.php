@@ -17,7 +17,7 @@ final class PackageTest extends TestCase
     {
         self::$repository = new Repository(
             new Url('https://composer.my-website.com'),
-            new Dir(__DIR__ . '/../../cache')
+            new Dir(__DIR__.'/../../cache')
         );
     }
 
@@ -25,21 +25,21 @@ final class PackageTest extends TestCase
     {
         $this->expectException(AcappellaException::class);
 
-        Package::buildFromArray(__DIR__ . '/../../cache', [
-            'name'    => 'vendor/repository',
+        Package::buildFromArray(__DIR__.'/../../cache', [
+            'name' => 'vendor/repository',
             'version' => 'dev-master',
         ]);
     }
 
     public function testBuildFromArray()
     {
-        $json = json_decode(file_get_contents(__DIR__ . '/../../data/composer.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../data/composer.json'), true);
 
-        $package = Package::buildFromArray(__DIR__ . '/../../cache', array_merge($json, [
-            'version'       => 'dev-master',
-            'source'        => [
-                'type'      => 'git',
-                'url'       => 'git@gitea.my-website.com:vendor/repository.git',
+        $package = Package::buildFromArray(__DIR__.'/../../cache', array_merge($json, [
+            'version' => 'dev-master',
+            'source' => [
+                'type' => 'git',
+                'url' => 'git@gitea.my-website.com:vendor/repository.git',
                 'reference' => '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
             ],
         ]));

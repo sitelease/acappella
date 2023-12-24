@@ -18,17 +18,17 @@ final class DistTest extends TestCase
     {
         self::$repository = new Repository(
             new Url('https://composer.my-website.com'),
-            new Dir(__DIR__ . '/../../cache')
+            new Dir(__DIR__.'/../../cache')
         );
     }
 
     public function testBuildFromArray()
     {
-        $dist = Dist::buildFromArray(__DIR__ . '/../../cache', 'vendor/repository', Version::buildFromString('v1.2.3'), [
-            'type'      => 'tar',
-            'url'       => 'https://composer.my-website.com/archives/vendor/repository/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz',
+        $dist = Dist::buildFromArray(__DIR__.'/../../cache', 'vendor/repository', Version::buildFromString('v1.2.3'), [
+            'type' => 'tar',
+            'url' => 'https://composer.my-website.com/archives/vendor/repository/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz',
             'reference' => '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
-            'localPath' => __DIR__ . '/../../cache/archives/vendor/repository/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz',
+            'localPath' => __DIR__.'/../../cache/archives/vendor/repository/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz',
         ]);
 
         $array = $dist->_toArray();

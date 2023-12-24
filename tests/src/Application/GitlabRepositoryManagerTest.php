@@ -27,7 +27,7 @@ final class GiteaRepositoryManagerTest extends TestCase
     {
         self::$cache = new JsonRepositoryCache(new Repository(
             new Url('https://composer.my-website.com'),
-            new Dir(__DIR__ . '/../../cache')
+            new Dir(__DIR__.'/../../cache')
         ));
 
         self::$manager = new GiteaRepositoryManager(self::$cache);
@@ -36,7 +36,7 @@ final class GiteaRepositoryManagerTest extends TestCase
     public function testAddRepository()
     {
         $client = new Client(new Builder(
-            new DummyHttpClient(file_get_contents(__DIR__ . '/../../data/composer.json'))
+            new DummyHttpClient(file_get_contents(__DIR__.'/../../data/composer.json'))
         ));
 
         $repository = Repository::fromArray($client, [
@@ -86,6 +86,6 @@ final class GiteaRepositoryManagerTest extends TestCase
     public static function tearDownAfterClass()
     {
         // Clean packages for future tests
-        file_put_contents(__DIR__ . '/../../cache/packages.json', '{}');
+        file_put_contents(__DIR__.'/../../cache/packages.json', '{}');
     }
 }
