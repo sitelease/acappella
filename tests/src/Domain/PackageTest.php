@@ -7,6 +7,7 @@ use Acappella\Domain\Repository;
 use Acappella\Domain\ValueObject\Dir;
 use Acappella\Domain\ValueObject\Url;
 use Acappella\Domain\ValueObject\Version;
+use Acappella\Exception\AcappellaException;
 use PHPUnit\Framework\TestCase;
 
 final class PackageTest extends TestCase
@@ -44,7 +45,7 @@ final class PackageTest extends TestCase
             ],
         ]));
 
-        $this->assertEquals('vendor/repository', $package->getName());
+        $this->assertEquals('vendor/project', $package->getName());
         $this->assertInstanceOf(Version::class, $package->getVersion());
 
         $packageArray = json_decode(json_encode($package), true);

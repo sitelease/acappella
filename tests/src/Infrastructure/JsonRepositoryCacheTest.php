@@ -99,7 +99,7 @@ final class JsonRepositoryCacheTest extends TestCase
 
         $this->assertEquals(
             '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
-            json_decode($json, true)['packages']['vendor/repository']['dev-master']['source']['reference']
+            json_decode($json, true)['packages']['vendor/project']['dev-master']['source']['reference']
         );
     }
 

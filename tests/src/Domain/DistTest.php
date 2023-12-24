@@ -24,11 +24,11 @@ final class DistTest extends TestCase
 
     public function testBuildFromArray()
     {
-        $dist = Dist::buildFromArray(__DIR__.'/../../cache', 'vendor/repository', Version::buildFromString('v1.2.3'), [
+        $dist = Dist::buildFromArray(__DIR__.'/../../cache', 'vendor/project', Version::buildFromString('v1.2.3'), [
             'type' => 'tar',
-            'url' => 'https://composer.my-website.com/archives/vendor/repository/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz',
+            'url' => 'https://composer.my-website.com/archives/vendor/project/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz',
             'reference' => '6a6e0ea9479c821d4b5728c0d3c9840e71085e82',
-            'localPath' => __DIR__.'/../../cache/archives/vendor/repository/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz',
+            'localPath' => __DIR__.'/../../cache/archives/vendor/project/v1.2.3/6a6e0ea9479c821d4b5728c0d3c9840e71085e82.tar.gz',
         ]);
 
         $array = $dist->_toArray();
