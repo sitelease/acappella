@@ -20,6 +20,7 @@ final class VersionTest extends TestCase
     public function testBuildFromVersionBranch()
     {
         self::assertEquals('2.0.x-dev', (string) Version::buildFromString('2.0'));
+        self::assertEquals('10.x-dev', (string) Version::buildFromString('10.x'));
     }
 
     public function testBuildFromTag()
